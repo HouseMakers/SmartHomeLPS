@@ -1,0 +1,6 @@
+.idea/
+.project
+cache/
+logs/
+app/config/config.php
+/nbproject
