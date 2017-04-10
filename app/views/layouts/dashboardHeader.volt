@@ -329,7 +329,49 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
                     <li class="header">Menu Principal</li>
+                    <li> 
+                        <a href="#">
+                            <i class="fa fa-dashboard"></i>
+                            <span> Início </span>
+                        </a> 
+                    </li>
                     
+                    <li class="treeview"> 
+                        <a href="#">
+                            <i class="fa fa-home"></i>
+                            <span> Casa </span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a> 
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-user"></i>
+                                    <span> Perfis </span>
+                                </a>
+                                
+                                <a href="#">
+                                    <i class="fa fa-calendar-check-o"></i>
+                                    <span> Agendamentos </span>
+                                </a> 
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    <li> 
+                        <a href="#">
+                            <i class="fa fa-plug"></i>
+                            <span> Dispositivos </span>
+                        </a> 
+                    </li>
+                    
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-pie-chart"></i>
+                            <span>Relatórios</span>
+                        </a>
+                    </li>
                 </ul>
             </section>
             <!-- /.sidebar -->
