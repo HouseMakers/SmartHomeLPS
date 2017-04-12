@@ -21,6 +21,12 @@
         <!-- jvectormap -->
         {{ stylesheet_link('vendor/plugins/jvectormap/jquery-jvectormap-1.2.2.css') }}
         
+        <!-- Pnotify style -->
+        {{ stylesheet_link('vendor/plugins/pnotify/pnotify.custom.min.css') }}
+        
+        <!-- Datatables style -->
+        {{ stylesheet_link('vendor/plugins/datatables/dataTables.bootstrap.css') }}
+        
         <!-- Theme style -->
         {{ stylesheet_link('css/AdminLTE.min.css') }}
         
@@ -37,6 +43,12 @@
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+        
+        <style>
+            .content-wrapper {
+                min-height: 800px !important;
+            }
+        </style>
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
@@ -296,10 +308,6 @@
                                 </li>
                             </ul>
                         </li>
-                        <!-- Control Sidebar Toggle Button -->
-                        <li>
-                            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                        </li>
                     </ul>
                 </div>
             </nav>
@@ -312,7 +320,7 @@
                 <div class="user-panel">
                     <div class="pull-left image">
 <!--                        <img src="img/user2-160x160.jpg" class="img-circle" alt="User Image">-->
-                        <img src="img/logo.png" class="" alt="User Image">
+                        <img src="{{baseUri}}img/logo.png" class="" alt="User Image">
                     </div>
                 </div>
                 <!-- search form -->
@@ -347,13 +355,22 @@
                         <ul class="treeview-menu">
                             <li>
                                 <a href="#">
+                                    <i class="fa fa-cubes"></i>
+                                    <span> Espaços </span>
+                                </a>
+                            </li>
+                            
+                            <li>
+                                <a href="#">
                                     <i class="fa fa-user"></i>
                                     <span> Perfis </span>
                                 </a>
-                                
+                            </li>
+                            
+                            <li>
                                 <a href="#">
                                     <i class="fa fa-calendar-check-o"></i>
-                                    <span> Agendamentos </span>
+                                    <span> Programações </span>
                                 </a> 
                             </li>
                         </ul>
@@ -366,11 +383,75 @@
                         </a> 
                     </li>
                     
+                    <li class="treeview"> 
+                        <a href="#">
+                            <i class="fa fa-bell"></i>
+                            <span> Alertas </span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-sticky-note"></i>
+                                    <span> Modelos </span>
+                                </a>
+                            </li>
+                            
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-history"></i>
+                                    <span> Histórico </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    <li> 
+                        <a href="#">
+                            <i class="fa fa-flag"></i>
+                            <span> Eventos </span>
+                        </a> 
+                    </li>
+                    
                     <li>
                         <a href="#">
                             <i class="fa fa-pie-chart"></i>
                             <span>Relatórios</span>
                         </a>
+                    </li>
+                    
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-gears"></i>
+                            <span>Configurações</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="{{baseUri}}spaces/">
+                                    <i class="fa fa-cubes"></i>
+                                    <span> Espaços </span>
+                                </a>
+                            </li>
+                            
+                            <li>
+                                <a href="{{baseUri}}sensors/">
+                                    <i class="fa fa-wifi"></i>
+                                    <span> Sensores </span>
+                                </a>
+                            </li>
+                            
+                            <li>
+                                <a href="{{baseUri}}actuators/">
+                                    <i class="fa fa-plug"></i>
+                                    <span> Atuadores </span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </section>
@@ -378,14 +459,14 @@
         </aside>
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                Dashboard
-                <small>Version 2.0</small>
-            </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li class="active">Dashboard</li>
-            </ol>
-        </section>
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    Dashboard
+                    <small>Version 1.0</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li class="active">{{ section_title }}</li>
+                </ol>
+            </section>
