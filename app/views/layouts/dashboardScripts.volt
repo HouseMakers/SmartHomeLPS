@@ -42,6 +42,9 @@
 {{ javascript_include('vendor/plugins/datatables/jquery.dataTables.min.js') }}
 {{ javascript_include('vendor/plugins/datatables/dataTables.bootstrap.min.js') }}
 
+<!-- Duallistbox -->
+{{ javascript_include('vendor/plugins/duallistbox/jquery.bootstrap-duallistbox.min.js') }}
+
 <script>
     var SmartHome = {
         baseUri: "{{ baseUri }}"

@@ -27,6 +27,9 @@
         <!-- Datatables style -->
         {{ stylesheet_link('vendor/plugins/datatables/dataTables.bootstrap.css') }}
         
+        <!-- Duallistbox style -->
+        {{ stylesheet_link('vendor/plugins/duallistbox/bootstrap-duallistbox.min.css') }}
+        
         <!-- Theme style -->
         {{ stylesheet_link('css/AdminLTE.min.css') }}
         
@@ -466,7 +469,7 @@
                     <small>Version 1.0</small>
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Início</a></li>
                     <li class="active">{{ section_title }}</li>
                 </ol>
             </section>

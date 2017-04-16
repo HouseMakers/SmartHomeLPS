@@ -2,12 +2,20 @@
 
 use Phalcon\Http\Response;
 use Phalcon\Http\Request;
+use Phalcon\Mvc\Dispatcher;
 
 class SpacesController extends ControllerBase
 {
+    public function beforeExecuteRoute(Dispatcher $dispatcher)
+    {  
+        parent::beforeExecuteRoute($dispatcher);
+        
+        $this->view->section_title = "Espaços";
+    }
+    
     public function indexAction()
     {
-        $this->view->section_title = "Espaços";
+        
     }
     
     /**
@@ -94,7 +102,13 @@ class SpacesController extends ControllerBase
             );
         }
         else {
+            $sensors = $space->sensors;
             if ($space->delete()) {
+                foreach($sensors as $sensor){
+                    $sensor->id_space = NULL;
+                    $sensor->save();
+                }
+                
                 $response->setStatusCode(200, "Ok");
                 $response->setJsonContent(
                     array(
@@ -196,5 +210,118 @@ class SpacesController extends ControllerBase
         }
         
         echo json_encode($json);
+    }
+    
+    public function sensorsAction($id)
+    {
+        $response = new Response();
+        $response->setHeader("Content-Type", "application/json");
+        
+        $space = Spaces::findFirst($id);
+        if (empty($space)) {
+            $response->setStatusCode(404, "Not Found");    
+            $response->setJsonContent(
+                array(
+                    "error" => array(
+                        "code"    => 404,
+                        "message" => "Não foi possível encontrar o sensor informado",
+                        "title"   => "Not Found"
+                    )
+                )
+            );
+        }
+        else {
+            $mappedSensors = $space->sensors->toArray();
+            $allSensors = Sensors::find("id_space is NULL")->toArray();
+            
+            $availableSensors = array_udiff($allSensors, $mappedSensors, function($x, $y) {
+                return strcmp($x['id'], $y['id']);
+            });
+            
+            $availableSensorsArray = array();
+            foreach($availableSensors as $availableSensor) {
+                array_push($availableSensorsArray, $availableSensor);
+            }
+            
+            $response->setStatusCode(200, "Ok");
+            $response->setJsonContent(
+                array(
+                    "mapped_sensors" => $mappedSensors,
+                    "available_sensors" => $availableSensorsArray
+                )
+            );
+        }
+        
+        $response->send();
+    }
+    
+    public function saveSensorsAction()
+    {
+        $response = new Response();
+        $response->setHeader("Content-Type", "application/json");
+        
+        $data = $this->request->getPost();
+        
+        $space = Spaces::findFirst($data["id"]);
+        if (empty($space)) {
+            $response->setStatusCode(404, "Not Found");    
+            $response->setJsonContent(
+                array(
+                    "error" => array(
+                        "code"    => 404,
+                        "message" => "Não foi possível encontrar o espaço informado",
+                        "title"   => "Not Found"
+                    )
+                )
+            );
+        }
+        else {
+            $idSensors = isset($data["sensors"]) ? $data["sensors"] : [];
+            
+            $sensors = $space->sensors;
+            foreach($sensors as $sensor) {
+                $sensor->id_space = null;
+                $sensor->save();
+            }
+            
+            $sensors = array();
+            foreach($idSensors as $idSensor) {
+                $sensor =  Sensors::findFirst($idSensor);
+                $sensor->space = $space;
+                $sensor->save();
+            }
+            
+            if(true) {
+                $response->setStatusCode(200, "Ok");
+                $response->setJsonContent(
+                    array(
+                        "space" => array(
+                            "id" => $space->id,
+                            "name" => $space->name
+                        )
+                    )
+                );
+            }
+            else {
+                $response->setStatusCode(400, "Bad Request");
+                
+                $messages = array();
+                foreach ($space->getMessages() as $message) {
+                    array_push($messages, $message->getMessage());
+                }
+                
+                $response->setJsonContent(
+                    array(
+                        "error" => array(
+                            "code"   => 409,
+                            "message" => $messages,
+                            "title" => "Conflict"
+                        )
+                    )
+                );
+            }
+        }
+        
+        $response->send();
     }
 }

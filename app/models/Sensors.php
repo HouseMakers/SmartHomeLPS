@@ -14,6 +14,13 @@ class Sensors extends \Phalcon\Mvc\Model
 
     /**
      *
+     * @var integer
+     * @Column(type="integer", length=11, nullable=true)
+     */
+    public $id_space;
+
+    /**
+     *
      * @var string
      * @Column(type="string", length=50, nullable=false)
      */
@@ -39,6 +46,10 @@ class Sensors extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("smarthome");
+        
+        $this->belongsTo("id_space", "Spaces", "id", [
+            'alias' => 'space'
+        ]);
     }
 
     /**
@@ -72,4 +83,5 @@ class Sensors extends \Phalcon\Mvc\Model
     {
         return parent::findFirst($parameters);
     }
+
 }

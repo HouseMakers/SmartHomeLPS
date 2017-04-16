@@ -25,6 +25,10 @@ class Spaces extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("smarthome");
+        
+        $this->hasMany("id",  "Sensors", "id_space", [
+            'alias' => 'sensors'
+        ]);
     }
 
     /**

@@ -9,6 +9,8 @@
             this.attachEvents();
             
             this.loadSpaces();
+            
+            this.initSensorsDualListBox();
         },
         
         attachEvents: function() {
@@ -28,6 +30,15 @@
             $("#deleteSpaceForm").submit(function(e){
                 e.preventDefault();
                 SmartHome.Spaces.deleteSpace();
+            });
+            
+            $("table").on('click', '.space-sensors', function(){
+                SmartHome.Spaces.showSpaceSensorsModal($(this).attr("data-id"), $(this).attr("data-name"));
+            });
+            
+            $("#spaceSensorsForm").submit(function(e){
+                e.preventDefault();
+                SmartHome.Spaces.saveSensors();
             });
         },
         
@@ -80,6 +91,78 @@
             });
         },
         
+        showSpaceSensorsModal: function(id, name) {
+            $("#spaceSensorsDuallistbox").html("");
+            
+            $.get(
+                SmartHome.baseUri + 'spaces/sensors/' + id
+            )
+            .done(function(data) {
+                for(var i = 0; i < data.available_sensors.length; i++) {
+                    $("#spaceSensorsDuallistbox").append(
+                        '<option value="' + data.available_sensors[i].id + '"name="sensors[]">' + data.available_sensors[i].name + '</option>'
+                    );
+                }
+                
+                for(var i = 0; i < data.mapped_sensors.length; i++) {
+                    $("#spaceSensorsDuallistbox").append(
+                        '<option value="' + data.mapped_sensors[i].id + '" selected="selected" "name="sensors[]">' + data.mapped_sensors[i].name + '</option>'
+                    );
+                }
+                
+                SmartHome.Spaces.refreshtSensorsDualListBox();
+                
+                $('#spaceSensorsModalTitle').find("span").text(name);
+                $("#spaceSensorsId").val(id);
+                $('#spaceSensorsModal').modal('show');
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                
+            });
+        },
+        
+        saveSensors: function() {
+            var selectedOptions = $("#bootstrap-duallistbox-selected-list_spaceSensorsDuallistbox option");
+            
+            var sensors = new Array();
+            for(var i = 0; i < selectedOptions.length; i++) {
+                sensors.push(selectedOptions[i].value);
+            }
+            
+            $.post(
+                SmartHome.baseUri + 'spaces/saveSensors/', 
+                { id: $("#spaceSensorsId").val(), sensors: sensors }
+            )
+            .done(function(data) {
+                $('#spaceSensorsModal').modal('hide');
+                SmartHome.AlertManager.showAlertSuccess("Sucesso", "Sensores do espaço <strong>" + data.space.name + "</strong> atualizados.");
+                SmartHome.Spaces.loadSpaces();
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                SmartHome.AlertManager.showAlertDanger("Opss", jqXHR.responseJSON.error.message);
+            });
+        },
+        
+        initSensorsDualListBox: function() {
+            $('#spaceSensorsDuallistbox').bootstrapDualListbox({
+                nonSelectedListLabel: 'Sensores Disponíveis',
+                selectedListLabel: 'Sensores Mapeados',
+                preserveSelectionOnMove: 'moved',
+                moveOnSelect: false,
+                filterTextClear: 'Mostrar todos',
+                infoText: 'Mostrando todos {0}',
+                infoTextEmpty: 'Lista vazia',
+                infoTextFiltered: '<span class="label label-warning">Filtrado</span> {0} de {1}',
+                moveAllLabel: "Mover todos",
+                moveSelectedLabel: "Mover selecionados",
+                filterPlaceHolder: "Filtrar",
+            });
+        },
+        
+        refreshtSensorsDualListBox: function() {
+            $('#spaceSensorsDuallistbox').bootstrapDualListbox("refresh");
+        },
+        
         loadSpaces: function() {
             if (this.oTable) {
                 this.oTable.fnDestroy();
@@ -122,6 +205,13 @@
                                 "data-name": oData.name
                             });
                             $(nTd).append("     " + $(options[1]).wrap("<div/>").parent().html());
+                            
+                            $(options[2]).attr({
+                                "id": oData.id,
+                                "data-id": oData.id,
+                                "data-name": oData.name
+                            });
+                            $(nTd).append("     " + $(options[2]).wrap("<div/>").parent().html());
                         }
                     }
                 ],

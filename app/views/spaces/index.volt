@@ -40,7 +40,7 @@
     </div>
     <!-- /.row (items row) -->
     
-    <div id="menuModals">
+    <div id="spaceModals">
         <!-- Create space modal form -->
         <div class="modal fade" id="createSpaceModal" tabindex="-1" role="dialog" aria-labelledby="createSpaceModalLabel">
             <div class="modal-dialog">
@@ -148,6 +148,43 @@
             <!-- /.modal-dialog -->
         </div>
         <!-- /.modal -->
+        
+        <!-- Space sensors modal -->
+        <div class="modal fade" id="spaceSensorsModal" tabindex="-1" role="dialog" aria-labelledby="spaceSensorsModalLabel">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title" id="spaceSensorsModalTitle">Sensores do Espaço - <span> </span></h4>
+                    </div>
+                    
+                    <form role="form" id="spaceSensorsForm">
+                        <div class="modal-body">
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <input type="hidden" id="spaceSensorsId" name="id">
+                                    
+                                    <select multiple="multiple" size="10" name="spaceSensorsDuallistbox" id="spaceSensorsDuallistbox">
+
+                                    </select>
+                                </div>   
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-success" id="saveSpaceSensors">Salvar</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
     </div>
     <!-- /.modals -->
     
@@ -158,6 +195,10 @@
 
         <button class="btn btn-danger btn-circle delete-space" data-container="body" data-toggle="tooltip" data-html="true" data-placement="top" title="Remover">
             <i class="fa fa-trash"></i>
+        </button>
+        
+        <button class="btn btn-info btn-circle space-sensors" data-container="body" data-toggle="tooltip" data-html="true" data-placement="top" title="Sensores">
+            <i class="fa fa-plug"></i>
         </button>
     </div>
 </section>
