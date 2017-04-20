@@ -11,4 +11,8 @@ $loader->registerDirs(
         $config->application->modelsDir,
         $config->application->formsDir
     ]
-)->register();
+);
+
+$loader->registerFiles([APP_PATH . '/vendor/guzzle/autoloader.php']);
+
+$loader->register();

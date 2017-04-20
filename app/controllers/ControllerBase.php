@@ -17,7 +17,7 @@ class ControllerBase extends Controller
      * @return boolean
      */
     public function beforeExecuteRoute(Dispatcher $dispatcher)
-    {  
+    {   
         $this->view->baseUri = $this->config->application->baseUri;
     }
 }
