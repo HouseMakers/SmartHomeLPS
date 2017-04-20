@@ -4,6 +4,8 @@ use Phalcon\Http\Response;
 use Phalcon\Http\Request;
 use Phalcon\Mvc\Dispatcher;
 
+use SmartHomeLPS\Services\Fiware\OrionService;
+
 class SpacesController extends ControllerBase
 {
     public function beforeExecuteRoute(Dispatcher $dispatcher)
@@ -31,16 +33,39 @@ class SpacesController extends ControllerBase
         
         $data = $this->request->getPost();
         if ($form->isValid($data, $space)) {
+            $this->db->begin();
+            
             if ($space->save()) {
-                $response->setStatusCode(200, "Ok");
-                $response->setJsonContent(
-                    array(
-                        "space" => array(
-                            "id" => $space->id,
-                            "name" => $space->name
+                $orionService = new OrionService();
+                
+                if($orionService->registerSpace($space)) {
+                    $this->db->commit();
+                    
+                    $response->setStatusCode(200, "Ok");
+                    $response->setJsonContent(
+                        array(
+                            "space" => array(
+                                "id" => $space->id,
+                                "name" => $space->name
+                            )
                         )
-                    )
-                );
+                    );
+                }
+                else {
+                    $this->db->rollback();
+                    
+                    $response->setStatusCode(409, "Conflict");
+                    $response->setJsonContent(
+                        array(
+                            "error" => array(
+                                "code"   => 409,
+                                "message" => $messages,
+                                "title" => "Conflict"
+                            )
+                        )
+                    );
+                }
+                
             }
             else {
                 $response->setStatusCode(409, "Conflict");

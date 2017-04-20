@@ -13,6 +13,10 @@ $loader->registerDirs(
     ]
 );
 
+$loader->registerNamespaces([
+    'SmartHomeLPS\Services'   => $config->application->servicesDir,
+]);
+
 $loader->registerFiles([APP_PATH . '/vendor/guzzle/autoloader.php']);
 
 $loader->register();
