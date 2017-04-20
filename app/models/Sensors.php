@@ -25,13 +25,20 @@ class Sensors extends \Phalcon\Mvc\Model
      * @Column(type="string", length=50, nullable=false)
      */
     public $status;
-
+    
     /**
      *
      * @var string
      * @Column(type="string", length=100, nullable=false)
      */
     public $name;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=100, nullable=false)
+     */
+    public $type;
 
     /**
      *

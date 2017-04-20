@@ -47,7 +47,7 @@
             )
             .done(function(data) {
                 $('#createSensorModal').modal('hide');
-                SmartHome.AlertManager.showAlertSuccess("Sucesso", "Sensor <strong>" + data.sensor.name + "</strong> cadastrado.");
+                SmartHome.AlertManager.showAlertSuccess("Sucesso", "Sensor <strong>" + data.sensor.type + "</strong> cadastrado.");
                 SmartHome.Sensors.loadSensors();
             })
             .fail(function(jqXHR, textStatus, errorThrown) {
@@ -70,7 +70,7 @@
             .done(function(data) {
                 $('#deleteSensorModal').modal('hide');
                 
-                SmartHome.AlertManager.showAlertSuccess("Sucesso", "Sensor <strong>" + data.sensor.name + "</strong> removido.");
+                SmartHome.AlertManager.showAlertSuccess("Sucesso", "Sensor <strong>" + data.sensor.type + "</strong> removido.");
                 
                 SmartHome.Sensors.loadSensors();
             })
@@ -103,6 +103,9 @@
                         "data": "name" 
                     },
                     { 
+                        "data": "type" 
+                    },
+                    { 
                         "data": "status" 
                     },
                     { 
@@ -115,14 +118,14 @@
                             $(options[0]).attr({
                                 "id": "sensor-" + oData.id,
                                 "data-id": oData.id,
-                                "data-name": oData.name
+                                "data-name": oData.type
                             });
                             $(nTd).append($(options[0]).wrap("<div/>").parent().html());
                             
                             $(options[1]).attr({
                                 "id": oData.id,
                                 "data-id": oData.id,
-                                "data-name": oData.name
+                                "data-name": oData.type
                             });
                             $(nTd).append("     " + $(options[1]).wrap("<div/>").parent().html());
                         }

@@ -100,13 +100,13 @@
             .done(function(data) {
                 for(var i = 0; i < data.available_sensors.length; i++) {
                     $("#spaceSensorsDuallistbox").append(
-                        '<option value="' + data.available_sensors[i].id + '"name="sensors[]">' + data.available_sensors[i].name + '</option>'
+                        '<option value="' + data.available_sensors[i].id + '"name="sensors[]">' + data.available_sensors[i].name + '(' + data.available_sensors[i].type +')' + '</option>'
                     );
                 }
                 
                 for(var i = 0; i < data.mapped_sensors.length; i++) {
                     $("#spaceSensorsDuallistbox").append(
-                        '<option value="' + data.mapped_sensors[i].id + '" selected="selected" "name="sensors[]">' + data.mapped_sensors[i].name + '</option>'
+                        '<option value="' + data.mapped_sensors[i].id + '" selected="selected" "name="sensors[]">' + data.mapped_sensors[i].name + '(' + data.available_sensors[i].type +')' + '</option>'
                     );
                 }
                 

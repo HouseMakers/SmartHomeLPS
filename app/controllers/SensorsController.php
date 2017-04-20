@@ -8,6 +8,7 @@ class SensorsController extends ControllerBase
     public function indexAction()
     {
         $this->view->section_title = "Sensores";
+        $this->view->form = new SensorsForm();
     }
     
     /**
@@ -30,7 +31,7 @@ class SensorsController extends ControllerBase
                     array(
                         "sensor" => array(
                             "id" => $sensor->id,
-                            "name" => $sensor->name,
+                            "type" => $sensor->type,
                             "description" => $sensor->description,
                         )
                     )
@@ -102,7 +103,7 @@ class SensorsController extends ControllerBase
                     array(
                         "sensor" => array(
                             "id" => $sensor->id,
-                            "name" => $sensor->name,
+                            "type" => $sensor->type,
                             "description" => $sensor->description
                         )
                     )
@@ -134,7 +135,7 @@ class SensorsController extends ControllerBase
     {
         $this->view->disable();
         
-        $columns = array('id', 'name', 'status');
+        $columns = array('id', 'name', 'type', 'status');
         $query = Sensors::query();
         $query->columns($columns);
         
@@ -194,6 +195,7 @@ class SensorsController extends ControllerBase
             
             $row['id'] = $sensor->id;
             $row['name'] = $sensor->name;
+            $row['type'] = $sensor->type;
             $row['status'] = $sensor->status;
             
             $json['aaData'][] = $row;
