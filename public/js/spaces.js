@@ -106,7 +106,7 @@
                 
                 for(var i = 0; i < data.mapped_sensors.length; i++) {
                     $("#spaceSensorsDuallistbox").append(
-                        '<option value="' + data.mapped_sensors[i].id + '" selected="selected" "name="sensors[]">' + data.mapped_sensors[i].name + ' (' + data.available_sensors[i].type +')' + '</option>'
+                        '<option value="' + data.mapped_sensors[i].id + '" selected="selected" "name="sensors[]">' + data.mapped_sensors[i].name + ' (' + data.mapped_sensors[i].type +')' + '</option>'
                     );
                 }
                 

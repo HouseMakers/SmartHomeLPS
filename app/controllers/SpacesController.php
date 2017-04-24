@@ -318,9 +318,12 @@ class SpacesController extends ControllerBase
                 $sensor =  Sensors::findFirst($idSensor);
                 $sensor->space = $space;
                 $sensor->save();
+                
+                array_push($sensors, $sensor);
             }
             
-            if(true) {
+            $orionService = new OrionService();
+            if($orionService->addSensorsToSpace($space,$sensors)){
                 $response->setStatusCode(200, "Ok");
                 $response->setJsonContent(
                     array(
@@ -332,19 +335,13 @@ class SpacesController extends ControllerBase
                 );
             }
             else {
-                $response->setStatusCode(400, "Bad Request");
-                
-                $messages = array();
-                foreach ($space->getMessages() as $message) {
-                    array_push($messages, $message->getMessage());
-                }
-                
+                $response->setStatusCode(400, "Conflict");    
                 $response->setJsonContent(
                     array(
                         "error" => array(
-                            "code"   => 409,
-                            "message" => $messages,
-                            "title" => "Conflict"
+                            "code"    => 400,
+                            "message" => "Erro ao savar sensores",
+                            "title"   => "Not Found"
                         )
                     )
                 );

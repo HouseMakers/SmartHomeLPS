@@ -12,7 +12,7 @@ return new \Phalcon\Config([
         'host'        => 'localhost',
         'username'    => 'root',
         'password'    => '',
-        'dbname'      => 'test',
+        'dbname'      => 'smarthome',
         'charset'     => 'utf8',
     ],
     'application' => [
@@ -27,6 +27,13 @@ return new \Phalcon\Config([
         'cacheDir'       => BASE_PATH . '/cache/',
         'vendorDir'      => APP_PATH . '/vendor/',
         'servicesDir'    => APP_PATH . '/services/',
+        'translationsDir' => APP_PATH . '/translations/',
+        'default_language' => 'pt-br',
+        'translations'     => [
+            'pt-br' => 'Português Brasileiro',
+            'en-us' => 'English'
+        ],
+        'baseUrl' => "https://cana.cnc.rnp.br/",
 
         // This allows the baseUri to be understand project paths that are not in the root directory
         // of the webpspace.  This will break if the public/index.php entry point is moved or
@@ -35,5 +42,21 @@ return new \Phalcon\Config([
     ],
     'fiware' => [
         'orionBaseUrl'     => 'http://138.197.25.119/v2/',
+    ],
+    'smarthome' => [
+        'sensors' => [
+            [
+                'name' => 'Temperature', 
+                'type' => 'Float'
+            ], 
+            [
+                'name' => 'Luminosity', 
+                'type' => 'Integer'
+            ],
+            [
+                'name' => 'Presence', 
+                'type' => 'Boolean'
+            ]
+        ]
     ]
 ]);
