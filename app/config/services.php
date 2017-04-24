@@ -7,6 +7,7 @@ use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Phalcon\Flash\Direct as Flash;
+use Phalcon\Http\Response\Cookies;
 
 /**
  * Shared configuration service
@@ -110,4 +111,37 @@ $di->setShared('session', function () {
     $session->start();
 
     return $session;
+});
+
+$di->set('cookies', function () {
+        $cookies = new Cookies();
+        
+        $cookies->useEncryption(false);
+        
+        return $cookies;
+    }
+);
+
+$di->setShared('t', function() {
+    $di = $this;
+    $config = $this->getConfig();
+    
+    if ($di->get('cookies')->has("language")) {
+        $language = $di->get('cookies')->get("language");
+    }
+    else {
+        $di->get('cookies')->set("language", $config->application->default_language);
+        $language = $config->application->default_language;
+    }
+    
+    if (file_exists($config->application->translationsDir . $language . ".php")) {
+        require $config->application->translationsDir . $language . ".php";
+    } else {
+        require $config->application->translationsDir . $config->application->default_language . ".php";
+    }
+    
+    //Return a translation object
+    return new \Phalcon\Translate\Adapter\NativeArray(array(
+       "content" => $messages
+    ));
 });

@@ -195,7 +195,7 @@ class SensorsController extends ControllerBase
             
             $row['id'] = $sensor->id;
             $row['name'] = $sensor->name;
-            $row['type'] = $sensor->type;
+            $row['type'] = $this->t->_($sensor->type);
             $row['status'] = $sensor->status;
             
             $json['aaData'][] = $row;

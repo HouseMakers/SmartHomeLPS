@@ -259,6 +259,10 @@ class SpacesController extends ControllerBase
             $mappedSensors = $space->sensors->toArray();
             $allSensors = Sensors::find("id_space is NULL")->toArray();
             
+            for($i = 0; $i < count($allSensors); $i++) {
+                $allSensors[$i]['type'] = $this->t->_($allSensors[$i]['type']);
+            }
+            
             $availableSensors = array_udiff($allSensors, $mappedSensors, function($x, $y) {
                 return strcmp($x['id'], $y['id']);
             });
