@@ -2,90 +2,90 @@
     
     "use strict";
     
-    SmartHome.Actuators = {
+    SmartHome.Devices = {
         oTable: null,
         
         init: function() {
             this.attachEvents();
             
-            this.loadActuators();
+            this.loadDevices();
         },
         
         attachEvents: function() {
-            $("#createActuator").on('click', function(){
-                SmartHome.Actuators.showCreateActuatorModal();
+            $("#createDevice").on('click', function(){
+                SmartHome.Devices.showCreateDeviceModal();
             });
             
-            $("#createActuatorForm").submit(function(e){
+            $("#createDeviceForm").submit(function(e){
                 e.preventDefault();
-                SmartHome.Actuators.createActuator();
+                SmartHome.Devices.createDevice();
             });
             
-            $("table").on('click', '.delete-actuator', function(){
-                SmartHome.Actuators.showDeleteActuatorModal($(this).attr("data-id"), $(this).attr("data-name"));
+            $("table").on('click', '.delete-device', function(){
+                SmartHome.Devices.showDeleteDeviceModal($(this).attr("data-id"), $(this).attr("data-name"));
             });
             
-            $("#deleteActuatorForm").submit(function(e){
+            $("#deleteDeviceForm").submit(function(e){
                 e.preventDefault();
-                SmartHome.Actuators.deleteActuator();
+                SmartHome.Devices.deleteDevice();
             });
         },
         
-        showCreateActuatorModal: function() {
-            $('#createActuatorModal').modal('show');
+        showCreateDeviceModal: function() {
+            $('#createDeviceModal').modal('show');
             
-            $("#createActuatorModal").on("hidden.bs.modal", function () {
-                $("#createActuatorForm").find("input").val("")
-                $("#createActuatorForm").find("textarea").val("")
+            $("#createDeviceModal").on("hidden.bs.modal", function () {
+                $("#createDeviceForm").find("input").val("")
+                $("#createDeviceForm").find("textarea").val("")
             });
         },
         
-        createActuator: function() {
+        createDevice: function() {
             $.post(
-                SmartHome.baseUri + 'actuators/create', 
-                $('#createActuatorForm').serialize()
+                SmartHome.baseUri + 'devices/create', 
+                $('#createDeviceForm').serialize()
             )
             .done(function(data) {
-                $('#createActuatorModal').modal('hide');
-                SmartHome.AlertManager.showAlertSuccess("Sucesso", "Atuador <strong>" + data.actuator.name + "</strong> cadastrado.");
-                SmartHome.Actuators.loadActuators();
+                $('#createDeviceModal').modal('hide');
+                SmartHome.AlertManager.showAlertSuccess("Sucesso", "Dispositivo <strong>" + data.device.name + "</strong> cadastrado.");
+                SmartHome.Devices.loadDevices();
             })
             .fail(function(jqXHR, textStatus, errorThrown) {
                 SmartHome.AlertManager.showAlertDanger("Opss", jqXHR.responseJSON.error.message);
             });
         },
         
-        showDeleteActuatorModal: function(id, name) {
-            $('#deleteActuatorModalTitle').find("span").text(name);
-            $("#deleteActuatorId").val(id);
-            $('#deleteActuatorModal').modal('show');
+        showDeleteDeviceModal: function(id, name) {
+            $('#deleteDeviceModalTitle').find("span").text(name);
+            $("#deleteDeviceId").val(id);
+            $('#deleteDeviceModal').modal('show');
         },
         
-        deleteActuator: function() {
-            var id = $("#deleteActuatorId").val();
+        deleteDevice: function() {
+            var id = $("#deleteDeviceId").val();
             
             $.get(
-                SmartHome.baseUri + 'actuators/delete/'  + id
+                SmartHome.baseUri + 'devices/delete/'  + id
             )
             .done(function(data) {
-                $('#deleteActuatorModal').modal('hide');
+                $('#deleteDeviceModal').modal('hide');
                 
-                SmartHome.AlertManager.showAlertSuccess("Sucesso", "Atuador <strong>" + data.actuator.name + "</strong> removido.");
+                SmartHome.AlertManager.showAlertSuccess("Sucesso", "Dispositivo <strong>" + data.device.name + "</strong> removido.");
                 
-                SmartHome.Actuators.loadActuators();
+                SmartHome.Devices.loadDevices();
             })
             .fail(function(jqXHR, textStatus, errorThrown) {
-                $('#deleteActuatorModal').modal('hide');
+                $('#deleteDeviceModal').modal('hide');
                 SmartHome.AlertManager.showAlertDanger("Opss", jqXHR.responseJSON.error.message);
             });
         },
         
-        loadActuators: function() {
+        loadDevices: function() {
             if (this.oTable) {
                 this.oTable.fnDestroy();
             }
             
-            this.oTable = $('#actuators').dataTable( {
+            this.oTable = $('#devices').dataTable( {
                 "drawCallback": function( settings ) {
                     $('[data-toggle="tooltip"]').tooltip({
                         trigger : 'hover'
@@ -94,7 +94,7 @@
                 "bAutoWidth": false,
                 "bProcessing": true,
                 "bServerSide": true,
-                "sAjaxSource": SmartHome.baseUri + "actuators/search",
+                "sAjaxSource": SmartHome.baseUri + "devices/search",
                 "columns": [
                     {
                         "data": "id"
@@ -110,10 +110,10 @@
                         "bSortable": false,
                         "sDefaultContent": "",
                         "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                            var options = $("#actuatorsOptionsTemplates").clone().children();
+                            var options = $("#devicesOptionsTemplates").clone().children();
                             
                             $(options[0]).attr({
-                                "id": "actuator-" + oData.id,
+                                "id": "device-" + oData.id,
                                 "data-id": oData.id,
                                 "data-name": oData.name
                             });
@@ -149,7 +149,7 @@
     };
     
     $(document).ready(function() {
-        SmartHome.Actuators.init();
+        SmartHome.Devices.init();
     });
     
 })(jQuery, $.AdminLTE);

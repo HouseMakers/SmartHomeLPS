@@ -120,7 +120,7 @@ class SpacesController extends ControllerBase
                 array(
                     "error" => array(
                         "code"    => 404,
-                        "message" => "Não foi possível encontrar o atuador informado",
+                        "message" => "Não foi possível encontrar o espaço informado",
                         "title"   => "Not Found"
                     )
                 )

@@ -9,7 +9,7 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">Alertas</h3>
                     
-                    <button type="button" class="btn btn-primary pull-right" id="createAlert" data-toggle="tooltip" data-placement="left" title="Cadastrar um atuador">
+                    <button type="button" class="btn btn-primary pull-right" id="createAlert" data-toggle="tooltip" data-placement="left" title="Cadastrar um alerta">
                         <i class="fa fa-plus"></i> Novo Alerta
                     </button>
                 </div>
@@ -21,7 +21,7 @@
                                 <th>id</th>
                                 <th>Título</th>
                                 <th>Espaço</th>
-                                <th>Status</th>
+                                <th>Sensor</th>
                                 <th>Opções</th>
                             </tr>
                         </thead>
@@ -31,7 +31,7 @@
                                 <th>id</th>
                                 <th>Título</th>
                                 <th>Espaço</th>
-                                <th>Status</th>
+                                <th>Sensor</th>
                                 <th>Opções</th>
                             </tr>
                         </tfoot>

@@ -198,22 +198,15 @@
                         "data": "space" 
                     },
                     { 
-                        "data": "status",
-                        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                            $(nTd).empty();
-                            if(oData.status == "ON") {
-                                $(nTd).append('<input type="checkbox" class="status-changer" data-id="' + oData.id + '" checked>');
-                            }
-                            else {
-                                $(nTd).append('<input type="checkbox" class="status-changer" data-id="' + oData.id + '">');
-                            }
-                        }
+                        "data": "sensor"
                     },
                     { 
                         "data": "opcoes", 
                         "bSortable": false,
                         "sDefaultContent": "",
                         "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                            $(nTd).empty();
+                            
                             var options = $("#alertsTemplatesOptionsTemplates").clone().children();
                             
                             $(options[0]).attr({
@@ -229,6 +222,13 @@
                                 "data-title": oData.title
                             });
                             $(nTd).append("     " + $(options[1]).wrap("<div/>").parent().html());
+                            
+                            if(oData.status == "ON") {
+                                $(nTd).append(' <input type="checkbox" class="status-changer" data-id="' + oData.id + '" checked> ');
+                            }
+                            else {
+                                $(nTd).append(' <input type="checkbox" class="status-changer" data-id="' + oData.id + '"> ');
+                            }
                         }
                     }
                 ],

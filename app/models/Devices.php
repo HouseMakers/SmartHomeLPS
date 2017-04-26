@@ -1,6 +1,6 @@
 <?php
 
-class Actuators extends \Phalcon\Mvc\Model
+class Devices extends \Phalcon\Mvc\Model
 {
 
     /**
@@ -41,7 +41,7 @@ class Actuators extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'actuators';
+        return 'devices';
     }
 
     /**

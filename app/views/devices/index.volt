@@ -7,15 +7,15 @@
         <section class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Atuadores</h3>
+                    <h3 class="box-title">Dispositivos</h3>
                     
-                    <button type="button" class="btn btn-primary pull-right" id="createActuator" data-toggle="tooltip" data-placement="left" title="Cadastrar um atuador">
-                        <i class="fa fa-plus"></i> Adicionar Atuador
+                    <button type="button" class="btn btn-primary pull-right" id="createDevice" data-toggle="tooltip" data-placement="left" title="Cadastrar um dispositivo">
+                        <i class="fa fa-plus"></i> Adicionar Dispositivo
                     </button>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <table id="actuators" class="table table-bordered table-striped table-hover">
+                    <table id="devices" class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr>
                                 <th>id</th>
@@ -43,28 +43,28 @@
     <!-- /.row (items row) -->
     
     <div id="menuModals">
-        <!-- Create actuator modal form -->
-        <div class="modal fade" id="createActuatorModal" tabindex="-1" role="dialog" aria-labelledby="createActuatorModalLabel">
+        <!-- Create device modal form -->
+        <div class="modal fade" id="createDeviceModal" tabindex="-1" role="dialog" aria-labelledby="createDeviceModalLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
-                        <h4 class="modal-title">Novo Atuador</h4>
+                        <h4 class="modal-title">Novo Dispositivo</h4>
                     </div>
 
                     <div class="modal-body">
-                        <form role="form" id="createActuatorForm">
+                        <form role="form" id="createDeviceForm">
                             <div class="box-body">
                                 <div class="form-group">
-                                    <label for="actuatorName">Nome</label>
-                                    <input type="text" class="form-control" id="actuatorName" name="name" placeholder="Informe o nome do atuador" required>
+                                    <label for="deviceName">Nome</label>
+                                    <input type="text" class="form-control" id="deviceName" name="name" placeholder="Informe o nome do dispositivo" required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="actuatorDescription">Descrição</label>
-                                    <textarea class="form-control" rows="3" id="actuatorDescription" name="description" placeholder="Descrição"></textarea>
+                                    <label for="deviceDescription">Descrição</label>
+                                    <textarea class="form-control" rows="3" id="deviceDescription" name="description" placeholder="Descrição"></textarea>
                                 </div>
                             </div>
                             <!-- /.box-body -->
@@ -123,25 +123,25 @@
         </div>
         <!-- /.modal -->
         
-        <!-- Delete actuator modal form -->
-        <div class="modal fade" id="deleteActuatorModal" tabindex="-1" role="dialog" aria-labelledby="deleteActuatorModalLabel">
+        <!-- Delete device modal form -->
+        <div class="modal fade" id="deleteDeviceModal" tabindex="-1" role="dialog" aria-labelledby="deleteDeviceModalLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
-                        <h4 class="modal-title" id="deleteActuatorModalTitle">Remover Atuador - <span> </span></h4>
+                        <h4 class="modal-title" id="deleteDeviceModalTitle">Remover Dispositivo - <span> </span></h4>
                     </div>
 
                     <div class="modal-body">
                         <div class="box-body">
-                            <p>Tem certeza que deseja remover esse atuador?</p>
+                            <p>Tem certeza que deseja remover esse dispositivo?</p>
                         </div>
                         <!-- /.box-body -->
 
-                        <form role="form" id="deleteActuatorForm">
-                            <input type="hidden" id="deleteActuatorId" name="id">
+                        <form role="form" id="deleteDeviceForm">
+                            <input type="hidden" id="deleteDeviceId" name="id">
 
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -158,12 +158,12 @@
     </div>
     <!-- /.modals -->
     
-    <div class="hidden" id="actuatorsOptionsTemplates">
-        <button class="btn btn-primary btn-circle edit-actuator" data-container="body" data-toggle="tooltip" data-html="true" data-placement="top" title="Editar">
+    <div class="hidden" id="devicesOptionsTemplates">
+        <button class="btn btn-primary btn-circle edit-device" data-container="body" data-toggle="tooltip" data-html="true" data-placement="top" title="Editar">
             <i class="fa fa-pencil"></i>
         </button>
 
-        <button class="btn btn-danger btn-circle delete-actuator" data-container="body" data-toggle="tooltip" data-html="true" data-placement="top" title="Remover">
+        <button class="btn btn-danger btn-circle delete-device" data-container="body" data-toggle="tooltip" data-html="true" data-placement="top" title="Remover">
             <i class="fa fa-trash"></i>
         </button>
     </div>
@@ -172,6 +172,6 @@
 
 {% include "layouts/dashboardScripts.volt" %}
 
-{{ javascript_include('js/actuators.js') }}
+{{ javascript_include('js/devices.js') }}
 
 {% include "layouts/dashboardFooter.volt" %}

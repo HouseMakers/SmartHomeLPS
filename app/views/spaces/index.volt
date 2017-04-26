@@ -198,7 +198,7 @@
         </button>
         
         <button class="btn btn-info btn-circle space-sensors" data-container="body" data-toggle="tooltip" data-html="true" data-placement="top" title="Sensores">
-            <i class="fa fa-plug"></i>
+            <i class="fa fa-wifi"></i>
         </button>
     </div>
 </section>

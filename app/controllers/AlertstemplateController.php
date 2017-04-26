@@ -197,6 +197,7 @@ class AlertstemplateController extends ControllerBase
             $row['id'] = $alertTemplate->id;
             $row['title'] = $alertTemplate->title;
             $row['space'] = $alertTemplate->space->name;
+            $row['sensor'] = $this->t->_($alertTemplate->sensor);
             $row['status'] = $alertTemplate->status;
             
             $json['aaData'][] = $row;

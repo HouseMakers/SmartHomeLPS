@@ -9,9 +9,6 @@ class EventController extends ControllerBase
 {
     public function notifyAction()
     {
-        //Checa se tem que enviar alerta
-        //Checa se tem que atuar em algum dispositivo a partir do perfil ativo
-        
         $data = json_decode(file_get_contents( 'php://input' ));
         
         $alertsTemplate = AlertsTemplate::find("space_id = " . $data->data[0]->id);

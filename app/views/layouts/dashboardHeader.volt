@@ -455,9 +455,9 @@
                             </li>
                             
                             <li>
-                                <a href="{{baseUri}}actuators/">
+                                <a href="{{baseUri}}devices/">
                                     <i class="fa fa-plug"></i>
-                                    <span> Atuadores </span>
+                                    <span> Dispositivos </span>
                                 </a>
                             </li>
                         </ul>

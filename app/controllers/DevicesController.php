@@ -3,34 +3,34 @@
 use Phalcon\Http\Response;
 use Phalcon\Http\Request;
 
-class ActuatorsController extends ControllerBase
+class DevicesController extends ControllerBase
 {
     public function indexAction()
     {
-        $this->view->section_title = "Atuadores";
+        $this->view->section_title = "Dispositivos";
     }
     
     /**
-     * Creates a new actuator
+     * Creates a new device
      */
     public function createAction()
     {
         $response = new Response();
         $response->setHeader("Content-Type", "application/json");
         
-        $form = new ActuatorsForm;
-        $actuator = new Actuators();
+        $form = new DevicesForm;
+        $device = new Devices();
         
         $data = $this->request->getPost();
-        if ($form->isValid($data, $actuator)) {
-            if ($actuator->save()) {
+        if ($form->isValid($data, $device)) {
+            if ($device->save()) {
                 $response->setStatusCode(200, "Ok");
                 $response->setJsonContent(
                     array(
-                        "actuator" => array(
-                            "id" => $actuator->id,
-                            "name" => $actuator->name,
-                            "description" => $actuator->description,
+                        "device" => array(
+                            "id" => $device->id,
+                            "name" => $device->name,
+                            "description" => $device->description,
                         )
                     )
                 );
@@ -39,7 +39,7 @@ class ActuatorsController extends ControllerBase
                 $response->setStatusCode(409, "Conflict");
                 
                 $messages = array();
-                foreach ($actuator->getMessages() as $message) {
+                foreach ($device->getMessages() as $message) {
                     array_push($messages, $message->getMessage());
                 }
                 
@@ -81,35 +81,35 @@ class ActuatorsController extends ControllerBase
         $response = new Response();
         $response->setHeader("Content-Type", "application/json");
         
-        $actuator = Actuators::findFirst($id);
-        if (empty($actuator)) {
+        $device = Devices::findFirst($id);
+        if (empty($device)) {
             $response->setStatusCode(404, "Not Found");    
             $response->setJsonContent(
                 array(
                     "error" => array(
                         "code"    => 404,
-                        "message" => "Não foi possível encontrar o atuador informado",
+                        "message" => "Não foi possível encontrar o dispositivo informado",
                         "title"   => "Not Found"
                     )
                 )
             );
         }
         else {
-            if ($actuator->delete()) {
+            if ($device->delete()) {
                 $response->setStatusCode(200, "Ok");
                 $response->setJsonContent(
                     array(
-                        "actuator" => array(
-                            "id" => $actuator->id,
-                            "name" => $actuator->name,
-                            "description" => $actuator->description
+                        "device" => array(
+                            "id" => $device->id,
+                            "name" => $device->name,
+                            "description" => $device->description
                         )
                     )
                 );
             }
             else {
                 $messages = array();
-                foreach ($actuator->getMessages() as $message) {
+                foreach ($device->getMessages() as $message) {
                     array_push($messages, $message->getMessage());
                 }
                 
@@ -134,7 +134,7 @@ class ActuatorsController extends ControllerBase
         $this->view->disable();
         
         $columns = array('id', 'name');
-        $query = Actuators::query();
+        $query = Devices::query();
         $query->columns($columns);
         
         $where = "";
@@ -177,8 +177,8 @@ class ActuatorsController extends ControllerBase
         $query->limit($limit[0], $limit[1]);
         $data = $query->execute();
         
-        $iTotalRecords = Actuators::count();
-        $iTotalDisplayRecords = Actuators::count(array("conditions" => $where));
+        $iTotalRecords = Devices::count();
+        $iTotalDisplayRecords = Devices::count(array("conditions" => $where));
         
         $json = array(
             "sEcho" => $_GET['sEcho'],
@@ -188,11 +188,11 @@ class ActuatorsController extends ControllerBase
         );
         
         
-        foreach ($data as $actuator) {
+        foreach ($data as $device) {
             $row = array();
             
-            $row['id'] = $actuator->id;
-            $row['name'] = $actuator->name;
+            $row['id'] = $device->id;
+            $row['name'] = $device->name;
             $row['status'] = "OFF";
             
             $json['aaData'][] = $row;

@@ -8,7 +8,7 @@ use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\Email;
 use Phalcon\Validation\Validator\Numericality;
 
-class ActuatorsForm extends Form
+class DevicesForm extends Form
 {
 
     /**
