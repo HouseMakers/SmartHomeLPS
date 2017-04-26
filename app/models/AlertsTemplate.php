@@ -112,6 +112,11 @@ class AlertsTemplate extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
     
+    public function isActive()
+    {
+        return $this->status == "ON";
+    }
+    
     public function enable()
     {
         $this->status = "ON";
@@ -132,5 +137,4 @@ class AlertsTemplate extends \Phalcon\Mvc\Model
         
         return $description;
     }
-
 }
