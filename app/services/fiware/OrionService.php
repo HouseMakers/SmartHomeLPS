@@ -1,6 +1,6 @@
 <?php
 
-namespace SmartHomeLPS\Services\Fiware;
+//namespace SmartHomeLPS\Services\Fiware;
     
 use Phalcon\Mvc\User\Component;
 

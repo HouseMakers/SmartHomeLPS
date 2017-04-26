@@ -4,7 +4,9 @@ use Phalcon\Http\Response;
 use Phalcon\Http\Request;
 use Phalcon\Mvc\Dispatcher;
 
-use SmartHomeLPS\Services\Fiware\OrionService;
+//use SmartHomeLPS\Services\Fiware\OrionService;
+
+require_once(__DIR__ . "/../services/fiware/OrionService.php");
 
 class SpacesController extends ControllerBase
 {
