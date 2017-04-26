@@ -60,7 +60,7 @@
                         <form role="form" id="createSensorForm">
                             <div class="box-body">
                                 <div class="form-group">
-                                    <label for="type">Tipo</label>
+                                    <label for="name">Nome</label>
                                     {{ form.render("name") }}  
                                 </div>
                                 
