@@ -107,7 +107,7 @@ class OrionService extends Component
                     ],
                     "notification" => [
                         "http" => [
-                          "url" => $this->config->application->baseUrl . "brunno/testando/notify.php"
+                          "url" => $this->config->application->baseUrl . "event/notify"
                         ],
                         "attrs" => [$attribute]
                     ],
