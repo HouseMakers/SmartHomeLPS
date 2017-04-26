@@ -12,7 +12,7 @@ class OrionService extends Component
         
         $response = $client->request('POST', $this->config->fiware->orionBaseUrl . "entities", [
             'json' => [
-                "id" => "Space" . $space->id,
+                "id" => $space->id,
                 "type" => "Space"
             ]
         ]);
@@ -23,7 +23,7 @@ class OrionService extends Component
     public function addSensorsToSpace($space, $sensors)
     {
         $entity = array(
-            "id" => "Space" . $space->id,
+            "id" => $space->id,
             "type" => "Space"
         );
         
@@ -36,8 +36,13 @@ class OrionService extends Component
         
         $client = new \GuzzleHttp\Client();
         
-        $client->request('DELETE', $this->config->fiware->orionBaseUrl . "entities/Space" . $space->id);
-        
+        try {
+            $client->request('DELETE', $this->config->fiware->orionBaseUrl . "entities/" . $space->id);
+        }
+        catch(\Exception $e) {
+            error_log("Erro to delete entity");
+        }
+
         $response = $client->request('POST', $this->config->fiware->orionBaseUrl . "entities", [
             'json' => $entity
         ]);
@@ -58,39 +63,37 @@ class OrionService extends Component
         $subscriptions = json_decode($response->getBody());
         
         $subscription = null;
-        for($i = 0; $i < count($subscriptions) and $subscription == null; $i++) {
+        for($i = 0; $i < count($subscriptions); $i++) {
             $subscriptionsEntities = $subscriptions[$i]->subject->entities;
-            if ($subscriptionsEntities[0]->id == ("Space" . $space->id)) {
-                $subscription = $subscriptions[$i];
+            if ($subscriptionsEntities[0]->id == ($space->id)) {
+                $client->request('DELETE', $this->config->fiware->orionBaseUrl . "subscriptions/" . $subscriptions[$i]->id);
             }
         }
         
-        if ($subscription != null) {
-            $client->request('DELETE', $this->config->fiware->orionBaseUrl . "subscriptions/" . $subscription->id);
-        }
-        
-        $response = $client->request('POST', $this->config->fiware->orionBaseUrl . "subscriptions", [
-            'json' => [
-                "subject" => [
-                    "entities" => [
-                        [
-                            "id" => "Space" . $space->id,
-                            "type" => "Space"
+        foreach($attributes as $attribute) {
+            $response = $client->request('POST', $this->config->fiware->orionBaseUrl . "subscriptions", [
+                'json' => [
+                    "subject" => [
+                        "entities" => [
+                            [
+                                "id" => $space->id,
+                                "type" => "Space"
+                            ]
+                        ],
+                        "condition" => [
+                            "attrs" => [$attribute]
                         ]
                     ],
-                    "condition" => [
-                        "attrs" => $attributes
-                    ]
-                ],
-                "notification" => [
-                    "http" => [
-                      "url" => $this->config->application->baseUrl . "brunno/testando/notify.php"
+                    "notification" => [
+                        "http" => [
+                          "url" => $this->config->application->baseUrl . "brunno/testando/notify.php"
+                        ],
+                        "attrs" => [$attribute]
                     ],
-                    "attrs" => $attributes
-                ],
-                "throttling" => 3
-            ]
-        ]);
+                    "throttling" => 3
+                ]
+            ]);
+        }
         
         return $response;
     }

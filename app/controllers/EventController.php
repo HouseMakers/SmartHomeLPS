@@ -14,7 +14,7 @@ class EventController extends ControllerBase
         
         $data = json_decode(file_get_contents( 'php://input' ));
         
-        $alertsTemplate = AlertsTemplate::find("space_id = " . substr($data->data[0]->id, -1));
+        $alertsTemplate = AlertsTemplate::find("space_id = " . $data->data[0]->id);
         
         $alerts = array();
         foreach($alertsTemplate as $alertTemplate) {
