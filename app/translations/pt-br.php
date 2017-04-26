@@ -4,5 +4,6 @@
 $messages = array(
     "Temperature" => "Temperatura",
     "Luminosity" => "Luminosidade",
-    "Presence" => "Presença"
+    "Presence" => "Presença",
+    "Rain" => "Chuva"
 );

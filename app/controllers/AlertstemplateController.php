@@ -3,73 +3,66 @@
 use Phalcon\Http\Response;
 use Phalcon\Http\Request;
 
-class SensorsController extends ControllerBase
+class AlertstemplateController extends ControllerBase
 {
     public function indexAction()
     {
-        $this->view->section_title = "Sensores";
-        $this->view->form = new SensorsForm();
+        $this->view->section_title = "Alertas";
     }
     
     /**
-     * Creates a new sensor
+     * Creates a new actuator
      */
     public function createAction()
     {
         $response = new Response();
         $response->setHeader("Content-Type", "application/json");
         
-        $form = new SensorsForm;
-        $sensor = new Sensors();
+        $alertTemplate = new AlertsTemplate();
         
         $data = $this->request->getPost();
-        if ($form->isValid($data, $sensor)) {
-            $sensor->status = "OFF";
-            if ($sensor->save()) {
-                $response->setStatusCode(200, "Ok");
-                $response->setJsonContent(
-                    array(
-                        "sensor" => array(
-                            "id" => $sensor->id,
-                            "type" => $sensor->type,
-                            "description" => $sensor->description,
-                        )
+        
+        $alertTemplate->title = $data['title'];
+        $alertTemplate->description = $data['description'];
+        $alertTemplate->message = $data['message'];
+        $alertTemplate->space_id = $data['space'];
+        $alertTemplate->sensor = $data['sensor'];
+        $alertTemplate->condition = $data['condition'];
+        $alertTemplate->value = $data['value'];
+        $alertTemplate->enable();
+        
+        if ($alertTemplate->save()) {
+            $response->setStatusCode(200, "Ok");
+            $response->setJsonContent(
+                array(
+                    "alert" => array(
+                        "id" => $alertTemplate->id,
+                        "title" => $alertTemplate->title,
+                        "description" => $alertTemplate->description,
+                        "message" => $alertTemplate->message,
+                        "space" => $alertTemplate->space->name,
+                        "sensor" => $alertTemplate->sensor,
+                        "condition" => $alertTemplate->condition,
+                        "value" => $alertTemplate->value,
+                        "status" => $alertTemplate->status
                     )
-                );
-            }
-            else {
-                $response->setStatusCode(409, "Conflict");
-                
-                $messages = array();
-                foreach ($sensor->getMessages() as $message) {
-                    array_push($messages, $message->getMessage());
-                }
-                
-                $response->setJsonContent(
-                    array(
-                        "error" => array(
-                            "code"   => 409,
-                            "message" => $messages,
-                            "title" => "Conflict"
-                        )
-                    )
-                );
-            }
+                )
+            );
         }
         else {
-            $response->setStatusCode(400, "Bad Request");
+            $response->setStatusCode(409, "Conflict");
             
             $messages = array();
-            foreach ($form->getMessages() as $message) {
+            foreach ($alertTemplate->getMessages() as $message) {
                 array_push($messages, $message->getMessage());
             }
             
             $response->setJsonContent(
                 array(
                     "error" => array(
-                        "code"   => 400,
+                        "code"   => 409,
                         "message" => $messages,
-                        "title" => "Bad Request"
+                        "title" => "Conflict"
                     )
                 )
             );
@@ -83,35 +76,41 @@ class SensorsController extends ControllerBase
         $response = new Response();
         $response->setHeader("Content-Type", "application/json");
         
-        $sensor = Sensors::findFirst($id);
-        if (empty($sensor)) {
+        $alertTemplate = AlertsTemplate::findFirst($id);
+        if (empty($alertTemplate)) {
             $response->setStatusCode(404, "Not Found");    
             $response->setJsonContent(
                 array(
                     "error" => array(
                         "code"    => 404,
-                        "message" => "Não foi possível encontrar o sensor informado",
+                        "message" => "Não foi possível encontrar o alerta informado",
                         "title"   => "Not Found"
                     )
                 )
             );
         }
         else {
-            if ($sensor->delete()) {
+            if ($alertTemplate->delete()) {
                 $response->setStatusCode(200, "Ok");
                 $response->setJsonContent(
                     array(
-                        "sensor" => array(
-                            "id" => $sensor->id,
-                            "type" => $sensor->type,
-                            "description" => $sensor->description
+                        "alert" => array(
+                            "id" => $alertTemplate->id,
+                            "title" => $alertTemplate->title,
+                            "description" => $alertTemplate->description,
+                            "message" => $alertTemplate->message,
+                            "space" => $alertTemplate->space->name,
+                            "sensor" => $alertTemplate->sensor,
+                            "condition" => $alertTemplate->condition,
+                            "value" => $alertTemplate->value,
+                            "status" => $alertTemplate->status
                         )
                     )
                 );
             }
             else {
                 $messages = array();
-                foreach ($sensor->getMessages() as $message) {
+                foreach ($alertTemplate->getMessages() as $message) {
                     array_push($messages, $message->getMessage());
                 }
                 
@@ -135,8 +134,8 @@ class SensorsController extends ControllerBase
     {
         $this->view->disable();
         
-        $columns = array('id', 'name', 'type', 'status');
-        $query = Sensors::query();
+        $columns = array('id', 'title', 'sensor', 'status');
+        $query = AlertsTemplate::query();
         $query->columns($columns);
         
         $where = "";
@@ -179,8 +178,8 @@ class SensorsController extends ControllerBase
         $query->limit($limit[0], $limit[1]);
         $data = $query->execute();
         
-        $iTotalRecords = Sensors::count();
-        $iTotalDisplayRecords = Sensors::count(array("conditions" => $where));
+        $iTotalRecords = AlertsTemplate::count();
+        $iTotalDisplayRecords = AlertsTemplate::count(array("conditions" => $where));
         
         $json = array(
             "sEcho" => $_GET['sEcho'],
@@ -190,13 +189,15 @@ class SensorsController extends ControllerBase
         );
         
         
-        foreach ($data as $sensor) {
+        foreach ($data as $alertTemplate) {
             $row = array();
             
-            $row['id'] = $sensor->id;
-            $row['name'] = $sensor->name;
-            $row['type'] = $this->t->_($sensor->type);
-            $row['status'] = $sensor->status;
+            $alertTemplate = AlertsTemplate::findFirst($alertTemplate['id']);
+            
+            $row['id'] = $alertTemplate->id;
+            $row['title'] = $alertTemplate->title;
+            $row['space'] = $alertTemplate->space->name;
+            $row['status'] = $alertTemplate->status;
             
             $json['aaData'][] = $row;
         }
@@ -204,35 +205,44 @@ class SensorsController extends ControllerBase
         echo json_encode($json);
     }
     
-    public function infoAction($type)
+    public function changeStatusAction()
     {
         $response = new Response();
         $response->setHeader("Content-Type", "application/json");
         
-        $configSensor = $this->searchInConfig($type);
+        $data = $this->request->getPost();
         
-        $response->setStatusCode(200, "Ok");
-        $response->setJsonContent(
-            array(
-                "sensor" => array(
-                    "dataType" => $configSensor['type']
-                )
-            )
-        );
+        $alertTemplate = AlertsTemplate::findFirst($data['id']);
         
-        $response->send();
-    }
-    
-    private function searchInConfig($name)
-    {
-        $configSensors = $this->config->get("smarthome")->get("sensors");
-        
-        foreach($configSensors as $configSensor) {
-            if ($name === $configSensor->name) {
-                return $configSensor;
-            }
+        if($data['status'] == "true") {
+            $alertTemplate->enable(); 
+        }
+        else {
+            $alertTemplate->disable(); 
         }
         
-        return null;
+        if($alertTemplate->save()) {
+            $response->setStatusCode(200, "Ok");
+        }
+        else {
+            $response->setStatusCode(409, "Conflict");
+            
+            $messages = array();
+            foreach ($alertTemplate->getMessages() as $message) {
+                array_push($messages, $message->getMessage());
+            }
+            
+            $response->setJsonContent(
+                array(
+                    "error" => array(
+                        "code"   => 409,
+                        "message" => $messages,
+                        "title" => "Conflict"
+                    )
+                )
+            );
+        }
+        
+        $response->send();
     }
 }

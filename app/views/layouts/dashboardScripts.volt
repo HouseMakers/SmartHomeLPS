@@ -45,6 +45,13 @@
 <!-- Duallistbox -->
 {{ javascript_include('vendor/plugins/duallistbox/jquery.bootstrap-duallistbox.min.js') }}
 
+<!-- Select2 -->
+{{ javascript_include('vendor/plugins/select2/select2.min.js') }}
+{{ javascript_include('vendor/plugins/select2/i18n/pt-BR.js') }}
+
+<!-- Bootstrap Switch -->
+{{ javascript_include('vendor/plugins/bootstrap-switch/bootstrap-switch.min.js') }}
+
 <script>
     var SmartHome = {
         baseUri: "{{ baseUri }}"

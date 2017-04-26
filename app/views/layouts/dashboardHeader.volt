@@ -30,6 +30,12 @@
         <!-- Duallistbox style -->
         {{ stylesheet_link('vendor/plugins/duallistbox/bootstrap-duallistbox.min.css') }}
         
+        <!-- Select2 style -->
+        {{ stylesheet_link('vendor/plugins/select2/select2.min.css') }}
+        
+        <!-- Bootstrap Switch -->
+        {{ stylesheet_link('vendor/plugins/bootstrap-switch/bootstrap-switch.min.css') }}
+        
         <!-- Theme style -->
         {{ stylesheet_link('css/AdminLTE.min.css') }}
         
@@ -274,7 +280,7 @@
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="img/user2-160x160.jpg" class="user-image" alt="User Image">
-                            <span class="hidden-xs">Alexander Pierce</span>
+                            <span class="hidden-xs">Pedro</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
@@ -396,7 +402,7 @@
                         </a>
                         <ul class="treeview-menu">
                             <li>
-                                <a href="#">
+                                 <a href="{{baseUri}}alertstemplate/">
                                     <i class="fa fa-sticky-note"></i>
                                     <span> Modelos </span>
                                 </a>

@@ -9,7 +9,7 @@ use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\Email;
 use Phalcon\Validation\Validator\Numericality;
 
-class SensorsForm extends Form
+class AlertsForm extends Form
 {
 
     /**
@@ -24,11 +24,6 @@ class SensorsForm extends Form
             $this->add(new Hidden("id"));
         }
         
-        $sensors = array();
-        for($i = 0; $i < count($this->config->smarthome->sensors); $i++) {
-            $sensors[$this->config->smarthome->sensors[$i]['name']] = $this->t->_($this->config->smarthome->sensors[$i]['name']);
-        }
-        error_log(print_r($sensors, true));
         $name = new Text("name", array(
                 'class' => 'form-control',
                 'placeholder' => "Nome",
@@ -42,19 +37,6 @@ class SensorsForm extends Form
         ));
         $name->setFilters(array('striptags', 'string'));
         $this->add($name);
-        
-        $type = new Select("type", $sensors, array(
-                'class' => 'form-control',
-                'placeholder' => "O nome do sensor",
-            )
-        );
-        $type->setLabel("Tipo");
-        $type->addValidators(array(
-            new PresenceOf(array(
-                'message' => 'Tipo é obrigatório'
-            ))
-        ));
-        $this->add($type);
         
         $description = new TextArea("description", array(
                 'class' => 'form-control',

@@ -350,4 +350,76 @@ class SpacesController extends ControllerBase
         
         $response->send();
     }
+    
+    public function listAction()
+    {
+        $response = new Response();
+        $response->setHeader("Content-Type", "application/json");
+        
+        $spaces = Spaces::find();
+        if (empty($spaces)) {
+            $response->setStatusCode(404, "Not Found");    
+            $response->setJsonContent(
+                array(
+                    "error" => array(
+                        "code"    => 404,
+                        "message" => "Nenhum espaço encontrado",
+                        "title"   => "Not Found"
+                    )
+                )
+            );
+        }
+        else {
+            $response->setStatusCode(200, "Ok");
+            $response->setJsonContent(
+                array(
+                    "spaces" => $spaces->toArray()
+                )
+            );
+        }
+        
+        $response->send();
+    }
+    
+    public function featuresAction($id)
+    {
+        $response = new Response();
+        $response->setHeader("Content-Type", "application/json");
+        
+        $space = Spaces::findFirst($id);
+        $sensors = $space->sensors;
+        
+        $features = array();
+        foreach($sensors as $sensor) {
+            $configSensor = $this->searchInConfig($sensor);
+            
+            array_push($features, [
+                'name' => $this->t->_($sensor->type), 
+                'type' => $sensor->type,
+                'data-type' => $configSensor['type']
+            ]);
+        }
+        
+        $response->setStatusCode(200, "Ok");
+        $response->setJsonContent(
+            array(
+                "features" => $features
+            )
+        );
+        
+        $response->send();
+    }
+    
+    private function searchInConfig($sensor)
+    {
+        $configSensors = $this->config->get("smarthome")->get("sensors");
+        
+        foreach($configSensors as $configSensor) {
+            if ($sensor->type === $configSensor->name) {
+                return $configSensor;
+            }
+        }
+        
+        return null;
+    }
 }
