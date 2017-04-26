@@ -10,12 +10,30 @@ class OrionService extends Component
     {
         $client = new \GuzzleHttp\Client();
         
-        $response = $client->request('POST', $this->config->fiware->orionBaseUrl . "entities", [
-            'json' => [
-                "id" => $space->id,
-                "type" => "Space"
-            ]
-        ]);
+        try {
+            $response = $client->request('POST', $this->config->fiware->orionBaseUrl . "entities", [
+                'json' => [
+                    "id" => $space->id,
+                    "type" => "Space"
+                ]
+            ]);
+        } catch(\Exception $e) {
+            error_log("Erro to create entity");
+        }
+        
+        return $response->getStatusCode() == 201;
+    }
+    
+    public function deleteSpace($id)
+    {
+        $client = new \GuzzleHttp\Client();
+        
+        try {
+            $response = $client->request('DELETE', $this->config->fiware->orionBaseUrl . "entities/" . $id);
+        }
+        catch(\Exception $e) {
+            error_log("Erro to delete entity");
+        }
         
         return $response->getStatusCode() == 201;
     }
@@ -38,14 +56,17 @@ class OrionService extends Component
         
         try {
             $client->request('DELETE', $this->config->fiware->orionBaseUrl . "entities/" . $space->id);
-        }
-        catch(\Exception $e) {
+        } catch(\Exception $e) {
             error_log("Erro to delete entity");
         }
 
-        $response = $client->request('POST', $this->config->fiware->orionBaseUrl . "entities", [
-            'json' => $entity
-        ]);
+        try {
+            $response = $client->request('POST', $this->config->fiware->orionBaseUrl . "entities", [
+                'json' => $entity
+            ]);
+        } catch(\Exception $e) {
+            error_log("Erro to create entity");
+        }
         
         if ($response->getStatusCode() == 201) {
             $response = $this->subscribe($space, $attributes);

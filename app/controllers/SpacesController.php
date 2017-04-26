@@ -134,6 +134,9 @@ class SpacesController extends ControllerBase
                     $sensor->save();
                 }
                 
+                $orionService = new OrionService();
+                $orionService->deleteSpace($space->id);
+                
                 $response->setStatusCode(200, "Ok");
                 $response->setJsonContent(
                     array(

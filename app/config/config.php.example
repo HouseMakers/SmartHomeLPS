@@ -51,12 +51,28 @@ return new \Phalcon\Config([
             ], 
             [
                 'name' => 'Luminosity', 
-                'type' => 'Integer'
+                'type' => 'Boolean'
             ],
             [
                 'name' => 'Presence', 
                 'type' => 'Boolean'
+            ],
+            [
+                'name' => 'Rain', 
+                'type' => 'Boolean'
             ]
         ]
-    ]
+    ],
+    'mail' => array(
+        'fromName'  => 'SmartHome System',
+        'fromEmail' => 'brunnomoreira.silva@gmail.com',
+        'smtp'      => array(
+            'server'	=> 'smtp.gmail.com',
+            'port' 		=> 465,
+            'security'  => 'ssl',
+            'username'  => 'brunnomoreira.silva@gmail.com',
+            'password'  => ''
+        ),
+        'mensagem'  =>  '<h1>Notificação SmartHome System</h1>'
+    )
 ]);
