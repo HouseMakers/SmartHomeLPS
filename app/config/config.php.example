@@ -74,5 +74,9 @@ return new \Phalcon\Config([
             'password'  => ''
         ),
         'mensagem'  =>  '<h1>Notificação SmartHome System</h1>'
-    )
+    ),
+     'amazon' => array(
+         'key' => 'AMAZON_KEY',
+         'secret' => 'AMAZON_SCRET'
+     )
 ]);

@@ -6,8 +6,5 @@ use Phalcon\Mvc\User\Component;
 
 abstract class AlertService extends Component
 {
-    public function alert($alert)
-    {
-        
-    }
+    public abstract function alert($alert);
 }
