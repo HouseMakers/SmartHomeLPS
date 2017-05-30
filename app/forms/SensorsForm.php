@@ -28,7 +28,7 @@ class SensorsForm extends Form
         for($i = 0; $i < count($this->config->smarthome->sensors); $i++) {
             $sensors[$this->config->smarthome->sensors[$i]['name']] = $this->t->_($this->config->smarthome->sensors[$i]['name']);
         }
-        error_log(print_r($sensors, true));
+        
         $name = new Text("name", array(
                 'class' => 'form-control',
                 'placeholder' => "Nome",

@@ -14,7 +14,7 @@ class EmailAlertService extends AlertService
     {
         $this->send(
             array(
-                "pedrovictor.caldas@gmail.com" => "Brunno"
+                "brunomoreira_silva@hotmail.com" => "Brunno"
             ),
                 $alert->template->title
             ,

@@ -8,8 +8,6 @@
 
 namespace SmartHomeLPS\Services\SmartHome;
 
-require __DIR__.'/../../vendor/aws.phar';
-
 use Aws\Sns\SnsClient;
 
 class SMSAlertService extends AlertService
@@ -31,7 +29,7 @@ class SMSAlertService extends AlertService
             "SenderID" => "SmartHome",
             "SMSType" => "Transational",
             "Message" => $alert->template->message,
-            "PhoneNumber" => "5584996637652"
+            "PhoneNumber" => ""
         );
 
         $result = $client->publish($args);
