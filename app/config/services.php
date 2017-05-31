@@ -9,6 +9,8 @@ use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Phalcon\Flash\Direct as Flash;
 use Phalcon\Http\Response\Cookies;
 
+use SmartHomeLPS\Services\ServicesManager;
+
 /**
  * Shared configuration service
  */
@@ -144,4 +146,12 @@ $di->setShared('t', function() {
     return new \Phalcon\Translate\Adapter\NativeArray(array(
        "content" => $messages
     ));
+});
+
+
+/**
+ * If the configuration specify the use of metadata adapter use it or use memory otherwise
+ */
+$di->setShared('servicesManager', function () {
+    return new ServicesManager();
 });

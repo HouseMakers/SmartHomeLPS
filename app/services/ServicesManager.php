@@ -4,18 +4,17 @@ namespace SmartHomeLPS\Services;
     
 use Phalcon\Mvc\User\Component;
 
-use SmartHomeLPS\Services\SmartHome\EmailAlertService;
-use SmartHomeLPS\Services\SmartHome\SMSAlertService;
-
 class ServicesManager extends Component
 {
-    public static function getAlertServices()
+    public function getAlertServices()
     {
-        $alertServices = array();
-
-        array_push($alertServices, new EmailAlertService());
-        array_push($alertServices, new SMSAlertService());
+        $services = array();
         
-        return $alertServices;
+        $alertServices = $this->config->smarthome->alertServices;
+        foreach($alertServices as $alertService) {
+            array_push($services, new $alertService());
+        }
+        
+        return $services;
     }
 }

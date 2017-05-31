@@ -26,7 +26,7 @@ class EventController extends ControllerBase
             
         }
         
-        $alertServices = ServicesManager::getAlertServices();
+        $alertServices = $this->servicesManager->getAlertServices();
         foreach($alertServices as $alertService) {
             foreach($alerts as $alert) {
                 $alertService->alert($alert);
