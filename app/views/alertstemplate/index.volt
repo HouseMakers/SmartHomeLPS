@@ -21,7 +21,7 @@
                                 <th>id</th>
                                 <th>Título</th>
                                 <th>Espaço</th>
-                                <th>Sensor</th>
+                                <th>Dispositivo</th>
                                 <th>Opções</th>
                             </tr>
                         </thead>
@@ -31,7 +31,7 @@
                                 <th>id</th>
                                 <th>Título</th>
                                 <th>Espaço</th>
-                                <th>Sensor</th>
+                                <th>Dispositivo</th>
                                 <th>Opções</th>
                             </tr>
                         </tfoot>
@@ -75,11 +75,22 @@
                                 </div>
                                 
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="alertSpace">Espaço</label>
                                             <select class="form-control" rows="3" id="alertSpace" name="space" style="width: 100%">
                                                 <option></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="alertSpace">Categoria de Dispositivo</label>
+                                            <select class="form-control" rows="3" id="alertDeviceCategory" name="alertDeviceCategory" style="width: 100%">
+                                                <option value=""></option>
+                                                <option value="Device">Dispositivos</option>
+                                                <option value="Sensor">Sensores</option>
                                             </select>
                                         </div>
                                     </div>
@@ -88,8 +99,8 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="alertSensor">Sensor</label>
-                                            <select type="text" class="form-control"  id="alertSensor" name="sensor" placeholder="Parâmetro" style="width: 100%"> 
+                                            <label for="alertDevice">Dispositivo</label>
+                                            <select type="text" class="form-control"  id="alertDevice" name="device" placeholder="Parâmetro" style="width: 100%"> 
                                                 <option></option>
                                             </select>
                                         </div>

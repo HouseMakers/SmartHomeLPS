@@ -1,6 +1,6 @@
 <?php
 
-class Sensors extends \Phalcon\Mvc\Model
+class AlertsTemplateExpression extends \Phalcon\Mvc\Model
 {
 
     /**
@@ -11,41 +11,27 @@ class Sensors extends \Phalcon\Mvc\Model
      * @Column(type="integer", length=11, nullable=false)
      */
     public $id;
-
-    /**
-     *
-     * @var integer
-     * @Column(type="integer", length=11, nullable=true)
-     */
-    public $id_space;
-
-    /**
-     *
-     * @var string
-     * @Column(type="string", length=50, nullable=false)
-     */
-    public $status;
     
     /**
      *
-     * @var string
-     * @Column(type="string", length=100, nullable=false)
+     * @var integer
+     * @Column(type="integer", length=11, nullable=false)
      */
-    public $name;
+    public $alert_template_id;
 
     /**
      *
      * @var string
      * @Column(type="string", length=100, nullable=false)
      */
-    public $type;
+    public $condition;
 
     /**
      *
      * @var string
-     * @Column(type="string", length=200, nullable=false)
+     * @Column(type="string", length=100, nullable=false)
      */
-    public $description;
+    public $value;
 
     /**
      * Initialize method for model.
@@ -54,8 +40,8 @@ class Sensors extends \Phalcon\Mvc\Model
     {
         $this->setSchema("smarthome");
         
-        $this->belongsTo("id_space", "Spaces", "id", [
-            'alias' => 'space'
+        $this->belongsTo("alert_template_id", "AlertsTemplate", "id", [
+            'alias' => 'template'
         ]);
     }
 
@@ -66,14 +52,14 @@ class Sensors extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'sensors';
+        return 'alerts_template_expression';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Sensors[]|Sensors
+     * @return AlertsTemplateExpression[]|AlertsTemplateExpression
      */
     public static function find($parameters = null)
     {
@@ -84,7 +70,7 @@ class Sensors extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Sensors
+     * @return AlertsTemplateExpression
      */
     public static function findFirst($parameters = null)
     {

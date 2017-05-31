@@ -129,11 +129,11 @@ class SpacesController extends ControllerBase
             );
         }
         else {
-            $sensors = $space->sensors;
-            if ($space->delete()) {
-                foreach($sensors as $sensor){
-                    $sensor->id_space = NULL;
-                    $sensor->save();
+            $devices = $space->devices;
+            if ($devices->delete()) {
+                foreach($devices as $device){
+                    $device->id_space = NULL;
+                    $device->save();
                 }
                 
                 $orionService = new OrionService();
@@ -242,7 +242,7 @@ class SpacesController extends ControllerBase
         echo json_encode($json);
     }
     
-    public function sensorsAction($id)
+    public function devicesAction($id)
     {
         $response = new Response();
         $response->setHeader("Content-Type", "application/json");
@@ -254,34 +254,34 @@ class SpacesController extends ControllerBase
                 array(
                     "error" => array(
                         "code"    => 404,
-                        "message" => "Não foi possível encontrar o sensor informado",
+                        "message" => "Não foi possível encontrar o espaço informado",
                         "title"   => "Not Found"
                     )
                 )
             );
         }
         else {
-            $mappedSensors = $space->sensors->toArray();
-            $allSensors = Sensors::find("id_space is NULL")->toArray();
+            $mappedDevices = $space->devices->toArray();
+            $allDevices = Devices::find("id_space is NULL")->toArray();
             
-            for($i = 0; $i < count($allSensors); $i++) {
-                $allSensors[$i]['type'] = $this->t->_($allSensors[$i]['type']);
+            for($i = 0; $i < count($allDevices); $i++) {
+                $allDevices[$i]['type'] = $this->t->_($allDevices[$i]['type']);
             }
             
-            $availableSensors = array_udiff($allSensors, $mappedSensors, function($x, $y) {
+            $availableDevices = array_udiff($allDevices, $mappedDevices, function($x, $y) {
                 return strcmp($x['id'], $y['id']);
             });
             
-            $availableSensorsArray = array();
-            foreach($availableSensors as $availableSensor) {
-                array_push($availableSensorsArray, $availableSensor);
+            $availableDevicesArray = array();
+            foreach($availableDevices as $availableDevice) {
+                array_push($availableDevicesArray, $availableDevice);
             }
             
             $response->setStatusCode(200, "Ok");
             $response->setJsonContent(
                 array(
-                    "mapped_sensors" => $mappedSensors,
-                    "available_sensors" => $availableSensorsArray
+                    "mapped_devices" => $mappedDevices,
+                    "available_devices" => $availableDevicesArray
                 )
             );
         }
@@ -289,7 +289,7 @@ class SpacesController extends ControllerBase
         $response->send();
     }
     
-    public function saveSensorsAction()
+    public function saveDevicesAction()
     {
         $response = new Response();
         $response->setHeader("Content-Type", "application/json");
@@ -310,25 +310,27 @@ class SpacesController extends ControllerBase
             );
         }
         else {
-            $idSensors = isset($data["sensors"]) ? $data["sensors"] : [];
+            $idDevices = isset($data["devices"]) ? $data["devices"] : [];
             
-            $sensors = $space->sensors;
-            foreach($sensors as $sensor) {
-                $sensor->id_space = null;
-                $sensor->save();
+            $devices = $space->devices;
+            foreach($devices as $device) {
+                $device->id_space = null;
+                $device->save();
             }
             
             $sensors = array();
-            foreach($idSensors as $idSensor) {
-                $sensor =  Sensors::findFirst($idSensor);
-                $sensor->space = $space;
-                $sensor->save();
+            foreach($idDevices as $idDevice) {
+                $device =  Devices::findFirst($idDevice);
+                $device->space = $space;
+                $device->save();
                 
-                array_push($sensors, $sensor);
+                if ($device->category == Devices::SENSOR) {
+                    array_push($sensors, $device);
+                }
             }
             
             $orionService = new OrionService();
-            if($orionService->addSensorsToSpace($space,$sensors)){
+            if($orionService->addSensorsToSpace($space, $sensors)){
                 $response->setStatusCode(200, "Ok");
                 $response->setJsonContent(
                     array(
@@ -386,23 +388,30 @@ class SpacesController extends ControllerBase
         $response->send();
     }
     
-    public function featuresAction($id)
+    public function featuresAction($id, $category)
     {
         $response = new Response();
         $response->setHeader("Content-Type", "application/json");
         
         $space = Spaces::findFirst($id);
-        $sensors = $space->sensors;
+        $devices = $space->devices;
         
         $features = array();
-        foreach($sensors as $sensor) {
-            $configSensor = $this->searchInConfig($sensor);
-            
-            array_push($features, [
-                'name' => $this->t->_($sensor->type), 
-                'type' => $sensor->type,
-                'data-type' => $configSensor['type']
-            ]);
+        foreach($devices as $device) {
+            if ($device->category == $category) {
+                $configSensor = $this->searchInConfig($device);
+                
+                if (empty($configSensor)) {
+                    $configSensor = ['type' => 'String'];
+                }
+                
+                array_push($features, [
+                    'id' => $device->id, 
+                    'name' => $device->name, 
+                    'type' => $this->t->_($device->type),
+                    'data-type' => $configSensor['type']
+                ]);
+            }
         }
         
         $response->setStatusCode(200, "Ok");

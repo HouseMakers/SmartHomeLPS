@@ -20,10 +20,11 @@ class SensorsController extends ControllerBase
         $response->setHeader("Content-Type", "application/json");
         
         $form = new SensorsForm;
-        $sensor = new Sensors();
+        $sensor = new Devices();
         
         $data = $this->request->getPost();
         if ($form->isValid($data, $sensor)) {
+            $sensor->category = Devices::SENSOR;
             $sensor->status = "OFF";
             if ($sensor->save()) {
                 $response->setStatusCode(200, "Ok");
@@ -31,6 +32,7 @@ class SensorsController extends ControllerBase
                     array(
                         "sensor" => array(
                             "id" => $sensor->id,
+                            "name" => $sensor->name,
                             "type" => $sensor->type,
                             "description" => $sensor->description,
                         )
@@ -83,7 +85,7 @@ class SensorsController extends ControllerBase
         $response = new Response();
         $response->setHeader("Content-Type", "application/json");
         
-        $sensor = Sensors::findFirst($id);
+        $sensor = Devices::findFirst($id);
         if (empty($sensor)) {
             $response->setStatusCode(404, "Not Found");    
             $response->setJsonContent(
@@ -136,7 +138,7 @@ class SensorsController extends ControllerBase
         $this->view->disable();
         
         $columns = array('id', 'name', 'type', 'status');
-        $query = Sensors::query();
+        $query = Devices::query();
         $query->columns($columns);
         
         $where = "";
@@ -174,13 +176,16 @@ class SensorsController extends ControllerBase
             $where = "true";
         }
         
+        $whereCategory = "category = '" . Devices::SENSOR . "'";
+        
         $query->where($where);
+        $query->andWhere($whereCategory);
         $query->orderBy($order);
         $query->limit($limit[0], $limit[1]);
         $data = $query->execute();
         
-        $iTotalRecords = Sensors::count();
-        $iTotalDisplayRecords = Sensors::count(array("conditions" => $where));
+        $iTotalRecords = Devices::count(array("conditions" => $whereCategory));
+        $iTotalDisplayRecords = Devices::count(array("conditions" => $whereCategory . " AND " . $where));
         
         $json = array(
             "sEcho" => $_GET['sEcho'],

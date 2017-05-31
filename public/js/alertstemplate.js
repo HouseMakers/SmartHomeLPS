@@ -16,12 +16,17 @@
                 SmartHome.AlertsTemplate.showCreateAlertTemplateModal();
             });
             
-            $("#alertSpace").on("select2:select", function (e) {
-                SmartHome.AlertsTemplate.loadSpaceSensors(e.params.data.id);
+            $("#alertDeviceCategory").on("change", function (e) {
+                var space = $("#alertSpace").val();
+                var deviceCategory = $("#alertDeviceCategory").val();
+                
+                if (space && deviceCategory) {
+                    SmartHome.AlertsTemplate.loadSpaceDevices(space, deviceCategory);
+                }
             });
             
-            $("#alertSensor").on("select2:select", function (e) {
-                SmartHome.AlertsTemplate.handleSpaceSensorSelection(e.params.data.id);
+            $("#alertDevice").on("select2:select", function (e) {
+                SmartHome.AlertsTemplate.handleSpaceDeviceSelection(e.params.data.id);
             });
             
             $("#createAlertForm").submit(function(e){
@@ -113,38 +118,38 @@
             });
         },
         
-        loadSpaceSensors: function(id) {
-            $("#alertSensor").find('option').remove();
-            $("#alertSensor").append('<option></option>');
+        loadSpaceDevices: function(id, category) {
+            $("#alertDevice").find('option').remove();
+            $("#alertDevice").append('<option></option>');
             
             $.get(
-                SmartHome.baseUri + 'spaces/features/' + id
+                SmartHome.baseUri + 'spaces/features/' + id + '/' + category
             )
             .done(function(data) {
                 var features = data.features;
                 
                 var options = new Array();
                 for (var i = 0; i < features.length; ++i) {
-                    options.push({id: features[i].type, text: features[i].name});
+                    options.push({id: features[i].id, text: '[' + features[i].type + '] ' + features[i].name});
                 }
                 
-                $("#alertSensor").select2({
+                $("#alertDevice").select2({
                     data: options,
-                    placeholder: 'Sensor',
+                    placeholder: 'Dispositivo',
                     language: "pt-BR"
                 });
             })
             .fail(function(jqXHR, textStatus, errorThrown) {
-                $("#alertSensor").select2({
+                $("#alertDevice").select2({
                     data: [],
                     placeholder: 'Sensor'
                 });
             });
         },
         
-        handleSpaceSensorSelection: function(sensor) {
+        handleSpaceDeviceSelection: function(device) {
             $.get(
-                SmartHome.baseUri + 'sensors/info/' + sensor
+                SmartHome.baseUri + 'devices/info/' + device
             )
             .done(function(data) {
                 console.log(data);

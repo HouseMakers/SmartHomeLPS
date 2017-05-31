@@ -2,6 +2,8 @@
 
 class Devices extends \Phalcon\Mvc\Model
 {
+    const DEVICE = 'Device';
+    const SENSOR = 'Sensor';
 
     /**
      *
@@ -11,13 +13,20 @@ class Devices extends \Phalcon\Mvc\Model
      * @Column(type="integer", length=11, nullable=false)
      */
     public $id;
-
+    
+    /**
+     *
+     * @var integer
+     * @Column(type="integer", length=11, nullable=true)
+     */
+    public $id_space;
+    
     /**
      *
      * @var string
      * @Column(type="string", length=100, nullable=false)
      */
-    public $name;
+    public $category;
     
     /**
      *
@@ -25,6 +34,13 @@ class Devices extends \Phalcon\Mvc\Model
      * @Column(type="string", length=100, nullable=false)
      */
     public $type;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=100, nullable=false)
+     */
+    public $name;
     
     /**
      *
@@ -46,6 +62,10 @@ class Devices extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("smarthome");
+        
+        $this->belongsTo("id_space", "Spaces", "id", [
+            'alias' => 'space'
+        ]);
     }
 
     /**

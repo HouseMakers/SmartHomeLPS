@@ -24,6 +24,8 @@ class DevicesController extends ControllerBase
         
         $data = $this->request->getPost();
         if ($form->isValid($data, $device)) {
+            $device->category = Devices::DEVICE;
+            $device->status = "OFF";
             if ($device->save()) {
                 $response->setStatusCode(200, "Ok");
                 $response->setJsonContent(
@@ -174,13 +176,16 @@ class DevicesController extends ControllerBase
             $where = "true";
         }
         
+        $whereCategory = "category = '" . Devices::DEVICE . "'";
+        
         $query->where($where);
+        $query->andWhere($whereCategory);
         $query->orderBy($order);
         $query->limit($limit[0], $limit[1]);
         $data = $query->execute();
         
-        $iTotalRecords = Devices::count();
-        $iTotalDisplayRecords = Devices::count(array("conditions" => $where));
+        $iTotalRecords = Devices::count(array("conditions" => $whereCategory));
+        $iTotalDisplayRecords = Devices::count(array("conditions" => $whereCategory . " AND " . $where));
         
         $json = array(
             "sEcho" => $_GET['sEcho'],
@@ -202,5 +207,41 @@ class DevicesController extends ControllerBase
         }
         
         echo json_encode($json);
+    }
+    
+    public function infoAction($type)
+    {
+        $response = new Response();
+        $response->setHeader("Content-Type", "application/json");
+        
+        $configSensor = $this->searchInConfig($type);
+     
+        if (empty($configSensor)) {
+            $configSensor = ['type' => 'String'];
+        }
+        
+        $response->setStatusCode(200, "Ok");
+        $response->setJsonContent(
+            array(
+                "sensor" => array(
+                    "dataType" => $configSensor['type']
+                )
+            )
+        );
+        
+        $response->send();
+    }
+    
+    private function searchInConfig($sensor)
+    {
+        $configSensors = $this->config->get("smarthome")->get("sensors");
+        
+        foreach($configSensors as $configSensor) {
+            if ($sensor === $configSensor->name) {
+                return $configSensor;
+            }
+        }
+        
+        return null;
     }
 }

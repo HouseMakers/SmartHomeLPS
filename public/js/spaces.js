@@ -38,7 +38,7 @@
             
             $("#spaceSensorsForm").submit(function(e){
                 e.preventDefault();
-                SmartHome.Spaces.saveSensors();
+                SmartHome.Spaces.saveDevices();
             });
         },
         
@@ -95,18 +95,18 @@
             $("#spaceSensorsDuallistbox").html("");
             
             $.get(
-                SmartHome.baseUri + 'spaces/sensors/' + id
+                SmartHome.baseUri + 'spaces/devices/' + id
             )
             .done(function(data) {
-                for(var i = 0; i < data.available_sensors.length; i++) {
+                for(var i = 0; i < data.available_devices.length; i++) {
                     $("#spaceSensorsDuallistbox").append(
-                        '<option value="' + data.available_sensors[i].id + '"name="sensors[]">' + data.available_sensors[i].name + ' (' + data.available_sensors[i].type +')' + '</option>'
+                        '<option value="' + data.available_devices[i].id + '"name="devices[]">' + data.available_devices[i].name + ' (' + data.available_devices[i].type +')' + '</option>'
                     );
                 }
                 
-                for(var i = 0; i < data.mapped_sensors.length; i++) {
+                for(var i = 0; i < data.mapped_devices.length; i++) {
                     $("#spaceSensorsDuallistbox").append(
-                        '<option value="' + data.mapped_sensors[i].id + '" selected="selected" "name="sensors[]">' + data.mapped_sensors[i].name + ' (' + data.mapped_sensors[i].type +')' + '</option>'
+                        '<option value="' + data.mapped_devices[i].id + '" selected="selected" "name="devices[]">' + data.mapped_devices[i].name + ' (' + data.mapped_devices[i].type +')' + '</option>'
                     );
                 }
                 
@@ -121,21 +121,21 @@
             });
         },
         
-        saveSensors: function() {
+        saveDevices: function() {
             var selectedOptions = $("#bootstrap-duallistbox-selected-list_spaceSensorsDuallistbox option");
             
-            var sensors = new Array();
+            var devices = new Array();
             for(var i = 0; i < selectedOptions.length; i++) {
-                sensors.push(selectedOptions[i].value);
+                devices.push(selectedOptions[i].value);
             }
             
             $.post(
-                SmartHome.baseUri + 'spaces/saveSensors/', 
-                { id: $("#spaceSensorsId").val(), sensors: sensors }
+                SmartHome.baseUri + 'spaces/saveDevices/', 
+                { id: $("#spaceSensorsId").val(), devices: devices }
             )
             .done(function(data) {
                 $('#spaceSensorsModal').modal('hide');
-                SmartHome.AlertManager.showAlertSuccess("Sucesso", "Sensores do espaço <strong>" + data.space.name + "</strong> atualizados.");
+                SmartHome.AlertManager.showAlertSuccess("Sucesso", "Dispositivos do espaço <strong>" + data.space.name + "</strong> atualizados.");
                 SmartHome.Spaces.loadSpaces();
             })
             .fail(function(jqXHR, textStatus, errorThrown) {

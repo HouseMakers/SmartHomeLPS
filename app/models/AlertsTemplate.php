@@ -11,6 +11,20 @@ class AlertsTemplate extends \Phalcon\Mvc\Model
      * @Column(type="integer", length=11, nullable=false)
      */
     public $id;
+    
+    /**
+     *
+     * @var integer
+     * @Column(type="integer", length=11, nullable=false)
+     */
+    public $space_id;
+    
+    /**
+     *
+     * @var integer
+     * @Column(type="integer", length=11, nullable=false)
+     */
+    public $device_id;
 
     /**
      *
@@ -38,35 +52,7 @@ class AlertsTemplate extends \Phalcon\Mvc\Model
      * @var string
      * @Column(type="string", nullable=false)
      */
-    public $sensor;
-
-    /**
-     *
-     * @var string
-     * @Column(type="string", nullable=true)
-     */
-    public $condition;
-
-    /**
-     *
-     * @var string
-     * @Column(type="string", nullable=true)
-     */
-    public $value;
-
-    /**
-     *
-     * @var string
-     * @Column(type="string", nullable=false)
-     */
     public $status;
-
-    /**
-     *
-     * @var integer
-     * @Column(type="integer", length=11, nullable=false)
-     */
-    public $space_id;
 
     /**
      * Initialize method for model.
@@ -75,8 +61,16 @@ class AlertsTemplate extends \Phalcon\Mvc\Model
     {
         $this->setSchema("smarthome");
         
-        $this->hasOne("space_id", "Spaces", "id", [
+        $this->belongsTo("space_id", "Spaces", "id", [
             'alias' => 'space'
+        ]);
+        
+        $this->belongsTo("device_id", "Devices", "id", [
+            'alias' => 'device'
+        ]);
+        
+        $this->hasOne("id", "AlertsTemplateExpression", "alert_template_id", [
+            'alias' => 'expression'
         ]);
     }
 

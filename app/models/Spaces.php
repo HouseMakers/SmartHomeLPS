@@ -26,8 +26,8 @@ class Spaces extends \Phalcon\Mvc\Model
     {
         $this->setSchema("smarthome");
         
-        $this->hasMany("id",  "Sensors", "id_space", [
-            'alias' => 'sensors'
+        $this->hasMany("id",  "Devices", "id_space", [
+            'alias' => 'devices'
         ]);
     }
 
@@ -63,4 +63,13 @@ class Spaces extends \Phalcon\Mvc\Model
         return parent::findFirst($parameters);
     }
 
+    public function getDevices()
+    {
+        
+    }
+    
+    public function getSensors()
+    {
+        
+    }
 }

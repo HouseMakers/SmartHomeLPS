@@ -26,10 +26,14 @@ class AlertstemplateController extends ControllerBase
         $alertTemplate->description = $data['description'];
         $alertTemplate->message = $data['message'];
         $alertTemplate->space_id = $data['space'];
-        $alertTemplate->sensor = $data['sensor'];
-        $alertTemplate->condition = $data['condition'];
-        $alertTemplate->value = $data['value'];
+        $alertTemplate->device_id = $data['device'];
         $alertTemplate->enable();
+        
+        $alertsTemplateExpression = new AlertsTemplateExpression();
+        $alertsTemplateExpression->condition = $data['condition'];
+        $alertsTemplateExpression->value = $data['value'];
+        
+        $alertTemplate->expression = $alertsTemplateExpression;
         
         if ($alertTemplate->save()) {
             $response->setStatusCode(200, "Ok");
@@ -41,9 +45,7 @@ class AlertstemplateController extends ControllerBase
                         "description" => $alertTemplate->description,
                         "message" => $alertTemplate->message,
                         "space" => $alertTemplate->space->name,
-                        "sensor" => $alertTemplate->sensor,
-                        "condition" => $alertTemplate->condition,
-                        "value" => $alertTemplate->value,
+                        "device" => $alertTemplate->device->name,
                         "status" => $alertTemplate->status
                     )
                 )
@@ -100,9 +102,6 @@ class AlertstemplateController extends ControllerBase
                             "description" => $alertTemplate->description,
                             "message" => $alertTemplate->message,
                             "space" => $alertTemplate->space->name,
-                            "sensor" => $alertTemplate->sensor,
-                            "condition" => $alertTemplate->condition,
-                            "value" => $alertTemplate->value,
                             "status" => $alertTemplate->status
                         )
                     )
@@ -134,7 +133,7 @@ class AlertstemplateController extends ControllerBase
     {
         $this->view->disable();
         
-        $columns = array('id', 'title', 'sensor', 'status');
+        $columns = array('id', 'title', 'status');
         $query = AlertsTemplate::query();
         $query->columns($columns);
         
@@ -197,7 +196,8 @@ class AlertstemplateController extends ControllerBase
             $row['id'] = $alertTemplate->id;
             $row['title'] = $alertTemplate->title;
             $row['space'] = $alertTemplate->space->name;
-            $row['sensor'] = $this->t->_($alertTemplate->sensor);
+            $row['sensor'] = '[' . $alertTemplate->device->category . ']' . 
+                            '[' . $this->t->_($alertTemplate->device->type) . ']';
             $row['status'] = $alertTemplate->status;
             
             $json['aaData'][] = $row;
