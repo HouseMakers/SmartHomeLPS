@@ -20,6 +20,7 @@
                             <tr>
                                 <th>id</th>
                                 <th>Nome</th>
+                                <th>Tipo</th>
                                 <th>Status</th>
                                 <th>Opções</th>
                             </tr>
@@ -29,6 +30,7 @@
                             <tr>
                                 <th>id</th>
                                 <th>Nome</th>
+                                <th>Tipo</th>
                                 <th>Status</th>
                                 <th>Opções</th>
                             </tr>
@@ -58,13 +60,18 @@
                         <form role="form" id="createDeviceForm">
                             <div class="box-body">
                                 <div class="form-group">
-                                    <label for="deviceName">Nome</label>
-                                    <input type="text" class="form-control" id="deviceName" name="name" placeholder="Informe o nome do dispositivo" required>
+                                    <label for="name">Nome</label>
+                                    {{ form.render("name") }}  
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="deviceDescription">Descrição</label>
-                                    <textarea class="form-control" rows="3" id="deviceDescription" name="description" placeholder="Descrição"></textarea>
+                                    <label for="type">Tipo</label>
+                                    {{ form.render("type") }}  
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="description">Descrição</label>
+                                    {{ form.render("description") }}  
                                 </div>
                             </div>
                             <!-- /.box-body -->

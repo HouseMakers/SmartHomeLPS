@@ -33,7 +33,7 @@ return new \Phalcon\Config([
             'pt-br' => 'Português Brasileiro',
             'en-us' => 'English'
         ],
-        'baseUrl' => "https://cana.cnc.rnp.br/",
+        'baseUrl' => "http://10.0.75.1/SmartHomeLPS/",
 
         // This allows the baseUri to be understand project paths that are not in the root directory
         // of the webpspace.  This will break if the public/index.php entry point is moved or
@@ -41,7 +41,7 @@ return new \Phalcon\Config([
         'baseUri'        => preg_replace('/public([\/\\\\])index.php$/', '', $_SERVER["PHP_SELF"]),
     ],
     'fiware' => [
-        'orionBaseUrl'     => 'http://138.197.25.119/v2/',
+        'orionBaseUrl'     => 'localhost:1026/v2/',
     ],
     'smarthome' => [
         'sensors' => [
@@ -61,6 +61,29 @@ return new \Phalcon\Config([
                 'name' => 'Rain', 
                 'type' => 'Boolean'
             ]
+        ],
+        'devices' => [
+            [
+                'name' => 'Light'
+            ],
+            [
+                'name' => 'Window'
+            ],
+            [
+                'name' => 'Heater'
+            ],
+            [
+                'name' => 'Air Conditioning'
+            ],
+            [
+                'name' => 'Security Camera'
+            ],
+            [
+                'name' => 'Door'
+            ],
+            [
+                'name' => 'Irrigation Sprinkler'
+            ]
         ]
     ],
     'mail' => array(
@@ -75,8 +98,8 @@ return new \Phalcon\Config([
         ),
         'mensagem'  =>  '<h1>Notificação SmartHome System</h1>'
     ),
-     'amazon' => array(
-         'key' => 'AMAZON_KEY',
-         'secret' => 'AMAZON_SCRET'
-     )
+    'amazon' => array(
+        'key' => 'AMAZON_KEY',
+        'secret' => 'AMAZON_SECRET'
+    )
 ]);

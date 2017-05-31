@@ -9,8 +9,9 @@ USE `smarthome`;
 DROP TABLE IF EXISTS `devices`;
 CREATE TABLE IF NOT EXISTS `devices` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
-	`status` varchar(100) NULL,
+    `type` varchar(100) NOT NULL,
     `name` varchar(100) NOT NULL,
+    `status` varchar(100) NULL,
     `description` varchar(200) NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

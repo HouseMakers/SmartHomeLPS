@@ -103,6 +103,9 @@
                         "data": "name" 
                     },
                     { 
+                        "data": "type" 
+                    },
+                    { 
                         "data": "status" 
                     },
                     { 

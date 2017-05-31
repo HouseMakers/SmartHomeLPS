@@ -8,6 +8,7 @@ class DevicesController extends ControllerBase
     public function indexAction()
     {
         $this->view->section_title = "Dispositivos";
+        $this->view->form = new DevicesForm();
     }
     
     /**
@@ -30,6 +31,7 @@ class DevicesController extends ControllerBase
                         "device" => array(
                             "id" => $device->id,
                             "name" => $device->name,
+                            "type" => $device->type,
                             "description" => $device->description,
                         )
                     )
@@ -133,7 +135,7 @@ class DevicesController extends ControllerBase
     {
         $this->view->disable();
         
-        $columns = array('id', 'name');
+        $columns = array('id', 'name', 'type', 'status');
         $query = Devices::query();
         $query->columns($columns);
         
@@ -193,7 +195,8 @@ class DevicesController extends ControllerBase
             
             $row['id'] = $device->id;
             $row['name'] = $device->name;
-            $row['status'] = "OFF";
+            $row['type'] = $this->t->_($device->type);
+            $row['status'] = $device->status;
             
             $json['aaData'][] = $row;
         }
