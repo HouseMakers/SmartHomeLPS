@@ -44,9 +44,14 @@ return new \Phalcon\Config([
         'orionBaseUrl'     => 'localhost:1026/v2/',
     ],
     'smarthome' => [
-        'alertServices' => [
-            'SmartHomeLPS\Services\SmartHome\EmailAlertService',
-            'SmartHomeLPS\Services\SmartHome\SMSAlertService'
+        'alert' => [
+            'services' => [
+                'SmartHomeLPS\Services\SmartHome\EmailAlertService',
+                'SmartHomeLPS\Services\SmartHome\SMSAlertService'
+            ],
+            'config' => [
+                "cronLimit" => 360
+            ]
         ],
         'sensors' => [
             [

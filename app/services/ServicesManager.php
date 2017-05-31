@@ -10,7 +10,7 @@ class ServicesManager extends Component
     {
         $services = array();
         
-        $alertServices = $this->config->smarthome->alertServices;
+        $alertServices = $this->config->smarthome->alert->services;
         foreach($alertServices as $alertService) {
             array_push($services, new $alertService());
         }
