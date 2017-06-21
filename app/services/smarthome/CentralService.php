@@ -16,7 +16,7 @@ class CentralService extends Component
                 'GET', $this->config->smarthome->central->baseUrl . "act/" . $device->id . "/" . strtolower($action) . "/1"
             );
         } catch(\Exception $e) {
-            error_log("Erro to actuator in device");
+            error_log("Erro to actuator in device: " . $e->getMessage());
         }
         
         return $response->getStatusCode() == 200;

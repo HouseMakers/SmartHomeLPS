@@ -328,6 +328,13 @@ class DevicesController extends ControllerBase
             while($count < count($actions) && !$found) {
                 if ($actions[$count]['action'] == $data['action']) {
                     $found = true;
+                    
+                    if(isset($actions[$count]['parameters'])) {
+                        for($i = 0; $i < count($actions[$count]['parameters']); $i++) {
+                            $actions[$count]['parameters'][$i]['name'] = $actions[$count]['parameters'][$i]['name'];
+                        }
+                    }
+                    
                     $response->setJsonContent(
                         array(
                             "action" => $actions[$count]

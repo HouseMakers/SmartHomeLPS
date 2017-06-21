@@ -109,10 +109,10 @@ class Devices extends \Phalcon\Mvc\Model
                 if (isset($device['actions'])) {
                     $actions = $device['actions'];
                     foreach($actions as $actionkey => $action) {
-                        $actions[$actionkey]['name'] = $actions[$actionkey]['action'];
+                        $actions[$actionkey]['name'] = $this->getDI()->get('t')->_($actions[$actionkey]['name']);
                         if (isset($actions[$actionkey]['parameters'])) {
                             foreach($actions[$actionkey]['parameters'] as $parameterkey => $parameter) {
-                                $actions[$actionkey]['parameters'][$parameterkey]['name'] = $actions[$actionkey]['parameters'][$parameterkey]['parameter'];
+                                $actions[$actionkey]['parameters'][$parameterkey]['name'] = $this->getDI()->get('t')->_($actions[$actionkey]['parameters'][$parameterkey]['name']);
                             }
                         }
                     }
