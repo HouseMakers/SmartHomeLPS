@@ -17,6 +17,18 @@ class ServicesManager extends Component
         
         return $services;
     }
+
+    public function getReportServices()
+    {
+        $services = array();
+
+        $reportServices = $this->config->smarthome->report->services;
+        foreach($reportServices as $reportService) {
+            array_push($services, new $reportService());
+        }
+
+        return $services;
+    }
     
     public function getCentralService()
     {

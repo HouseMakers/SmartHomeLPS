@@ -53,6 +53,13 @@ return new \Phalcon\Config([
                 "cronLimit" => 360
             ]
         ],
+        'report' => [
+            'services' => [
+                'SmartHomeLPS\Services\SmartHome\PDFReport',
+                'SmartHomeLPS\Services\SmartHome\ViewReport',
+                'SmartHomeLPS\Services\SmartHome\SpreadsheetReport',
+            ]
+        ],
         'central' => [
             'service' => 'SmartHomeLPS\Services\SmartHome\CentralService',
             'baseUrl' => 'http://169.254.96.153/'
