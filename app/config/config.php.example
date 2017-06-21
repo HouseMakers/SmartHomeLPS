@@ -41,7 +41,7 @@ return new \Phalcon\Config([
         'baseUri'        => preg_replace('/public([\/\\\\])index.php$/', '', $_SERVER["PHP_SELF"]),
     ],
     'fiware' => [
-        'orionBaseUrl'     => 'localhost:1026/v2/',
+        'orionBaseUrl'     => 'http://localhost:1026/v2/',
     ],
     'smarthome' => [
         'alert' => [
@@ -59,19 +59,19 @@ return new \Phalcon\Config([
         ],
         'sensors' => [
             [
-                'name' => 'Temperature', 
+                'name' => 'Temperature',
                 'type' => 'Float'
-            ], 
+            ],
             [
-                'name' => 'Luminosity', 
+                'name' => 'Luminosity',
                 'type' => 'Boolean'
             ],
             [
-                'name' => 'Presence', 
+                'name' => 'Presence',
                 'type' => 'Boolean'
             ],
             [
-                'name' => 'Rain', 
+                'name' => 'Rain',
                 'type' => 'Boolean'
             ]
         ],
@@ -80,10 +80,12 @@ return new \Phalcon\Config([
                 'name' => 'Light',
                 'actions' => [
                     [
-                        'action' => 'ON'
+                        'action' => 'ON',
+                        'name' => 'On'
                     ],
                     [
-                        'action' => 'OFF'
+                        'action' => 'OFF',
+                        'name' => 'Off'
                     ]
                 ]
             ],
@@ -91,10 +93,12 @@ return new \Phalcon\Config([
                 'name' => 'Window',
                 'actions' => [
                     [
-                        'action' => 'OPEN'
+                        'action' => 'OPEN',
+                        'name' => 'Open'
                     ],
                     [
-                        'action' => 'CLOSE'
+                        'action' => 'CLOSE',
+                        'name' => 'Close'
                     ]
                 ]
             ],
@@ -102,16 +106,20 @@ return new \Phalcon\Config([
                 'name' => 'Heater',
                 'actions' => [
                     [
-                        'action' => 'ON'
+                        'action' => 'ON',
+                        'name' => 'On'
                     ],
                     [
-                        'action' => 'OFF'
+                        'action' => 'OFF',
+                        'name' => 'Off'
                     ],
                     [
-                        'action' => 'HEAT'
+                        'action' => 'HEAT',
+                        'name' => 'Heat'
                     ],
                     [
-                        'action' => 'COOL'
+                        'action' => 'COOL',
+                        'name' => 'Cool'
                     ]
                 ]
             ],
@@ -119,23 +127,28 @@ return new \Phalcon\Config([
                 'name' => 'Air Conditioning',
                 'actions' => [
                     [
-                        'action' => 'ON'
+                        'action' => 'ON',
+                        'name' => 'On'
                     ],
                     [
-                        'action' => 'OFF'
+                        'action' => 'OFF',
+                        'name' => 'Off'
                     ],
                     [
-                        'action' => 'HEAT'
+                        'action' => 'HEAT',
+                        'name' => 'Increase Temperatura'
                     ],
                     [
-                        'action' => 'COOL'
+                        'action' => 'COOL',
+                        'name' => 'Decrease Temperatura'
                     ],
                     [
                         'action' => 'CHANGE',
+                        'name' => 'Manual Control',
                         'parameters' => [
                             [
-                                'parameter' => 'VALUE',
-                                'name' => 'Value',
+                                'parameter' => 'TEMPERATURE',
+                                'name' => 'Temperature',
                                 'type' => 'INT'
                             ]
                         ]
@@ -146,16 +159,24 @@ return new \Phalcon\Config([
                 'name' => 'Security Camera',
                 'actions' => [
                     [
-                        'action' => 'ON'
+                        'action' => 'ON',
+                        'name' => 'On'
                     ],
                     [
-                        'action' => 'OFF'
+                        'action' => 'OFF',
+                        'name' => 'Off'
                     ],
                     [
-                        'action' => 'STANDBY'
+                        'action' => 'STANDBY',
+                        'name' => 'StandBy'
                     ],
                     [
-                        'action' => 'REC'
+                        'action' => 'REC',
+                        'name' => 'Rec Mode'
+                    ],
+                    [
+                        'action' => 'NORMAL',
+                        'name' => 'Normal Mode'
                     ]
                 ]
             ],
@@ -163,10 +184,12 @@ return new \Phalcon\Config([
                 'name' => 'Door',
                 'actions' => [
                     [
-                        'action' => 'LOCK'
+                        'action' => 'LOCK',
+                        'name' => 'Lock'
                     ],
                     [
                         'action' => 'UNLOCK',
+                        'name' => 'Unlock',
                         'parameters' => [
                             [
                                 'parameter' => 'PIN',
@@ -181,16 +204,20 @@ return new \Phalcon\Config([
                 'name' => 'Irrigation Sprinkler',
                 'actions' => [
                     [
-                        'action' => 'ON'
+                        'action' => 'ON',
+                        'name' => 'On'
                     ],
                     [
-                        'action' => 'OFF'
+                        'action' => 'OFF',
+                        'name' => 'Off'
                     ],
                     [
-                        'action' => 'MODE1'
+                        'action' => 'MODE1',
+                        'name' => 'Mode 1'
                     ],
                     [
-                        'action' => 'MODE2'
+                        'action' => 'MODE2',
+                        'name' => 'Mode 2'
                     ],
                 ]
             ]
@@ -204,12 +231,12 @@ return new \Phalcon\Config([
             'port' 		=> 465,
             'security'  => 'ssl',
             'username'  => 'brunnomoreira.silva@gmail.com',
-            'password'  => ''
+            'password'  => 'prometeu'
         ),
         'mensagem'  =>  '<h1>Notificação SmartHome System</h1>'
     ),
     'amazon' => array(
-        'key' => 'AMAZON_KEY',
-        'secret' => 'AMAZON_SECRET'
+        'key' => 'AKIAJIE4CTFYS6WNF6YQ',
+        'secret' => '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'
     )
 ]);
