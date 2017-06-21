@@ -4,3 +4,5 @@ cache/
 logs/
 app/config/config.php
 /nbproject
+composer.phar
+/vendor/

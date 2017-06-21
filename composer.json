@@ -1,0 +1,17 @@
+{
+  "name": "SmartHomeLPS",
+  "description": "LPS for SmartHome Control Systems",
+  "version": "0.1",
+  "keywords": [
+    "SmrtHome",
+    "System",
+    "LPS"
+  ],
+  "require": {
+    "php": ">=5.5"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.0",
+    "phalcon/incubator": "^3.0"
+  }
+}
