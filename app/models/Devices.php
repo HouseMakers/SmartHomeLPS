@@ -99,4 +99,30 @@ class Devices extends \Phalcon\Mvc\Model
     {
         return parent::findFirst($parameters);
     }
+    
+    public function actions()
+    {
+        $devices = $this->getDI()->get('config')->smarthome->devices->toArray();
+        
+        foreach($devices as $device) {
+            if ($device['name'] == $this->type) {
+                if (isset($device['actions'])) {
+                    $actions = $device['actions'];
+                    foreach($actions as $actionkey => $action) {
+                        $actions[$actionkey]['name'] = $actions[$actionkey]['action'];
+                        if (isset($actions[$actionkey]['parameters'])) {
+                            foreach($actions[$actionkey]['parameters'] as $parameterkey => $parameter) {
+                                $actions[$actionkey]['parameters'][$parameterkey]['name'] = $actions[$actionkey]['parameters'][$parameterkey]['parameter'];
+                            }
+                        }
+                    }
+                    //error_log($actions);
+                    return $actions;
+                }
+                return [];
+            }
+        }
+        
+        return [];
+    }
 }

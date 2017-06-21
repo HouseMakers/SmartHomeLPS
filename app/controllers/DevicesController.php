@@ -232,6 +232,137 @@ class DevicesController extends ControllerBase
         $response->send();
     }
     
+    public function actAction()
+    {
+        $response = new Response();
+        $response->setHeader("Content-Type", "application/json");
+        
+        $data = $this->request->getPost();
+        
+        $action = $data['action'];
+        $device = Devices::findFirst($data['id']);
+        
+        if ($device) {
+            $centralService = $this->servicesManager->getCentralService();
+            if($centralService->act($device, $action)) {
+                $response->setStatusCode(200, "Ok");
+                $response->setJsonContent(
+                    array(
+                        "message" => "Dispositivo Atualizado"
+                    )
+                );
+            }
+            else {
+                $response->setStatusCode(500, "Internal Server Error");
+                $response->setJsonContent(
+                    array(
+                        "message" => "Erro ao atualizar Dispositivo"
+                    )
+                );
+            }
+        }
+        else {
+            $response->setStatusCode(404, "Not Found");    
+            $response->setJsonContent(
+                array(
+                    "error" => array(
+                        "code"    => 404,
+                        "message" => "Não foi possível encontrar o dispositivo informado",
+                        "title"   => "Not Found"
+                    )
+                )
+            );
+        }
+        
+        $response->send();
+    }
+    
+    public function actionsAction($id)
+    {
+        $response = new Response();
+        $response->setHeader("Content-Type", "application/json");
+        
+        $device = Devices::findFirst($id);
+        
+        if($device) {
+            $actions = $device->actions();
+            
+            $response->setStatusCode(200, "Ok");
+            $response->setJsonContent(
+                array(
+                    "actions" => $actions
+                )
+            );
+        }
+        else {
+            $response->setStatusCode(404, "Not Found");    
+            $response->setJsonContent(
+                array(
+                    "error" => array(
+                        "code"    => 404,
+                        "message" => "Não foi possível encontrar o dispositivo informado",
+                        "title"   => "Not Found"
+                    )
+                )
+            );
+        }
+        
+        $response->send();
+    }
+    
+    public function actionInfoAction()
+    {
+        $response = new Response();
+        $response->setHeader("Content-Type", "application/json");
+        
+        $data = $this->request->getPost();
+        
+        $device = Devices::findFirst($data['id']);
+        
+        if ($device) {
+            $response->setStatusCode(200, "Ok");
+            
+            $actions = $device->actions();
+            $found = false;
+            $count = 0;
+            while($count < count($actions) && !$found) {
+                if ($actions[$count]['action'] == $data['action']) {
+                    $found = true;
+                    $response->setJsonContent(
+                        array(
+                            "action" => $actions[$count]
+                        )
+                    );
+                }
+                else {
+                    $count++;
+                }
+            }
+            
+            if (!$found) {
+                $response->setJsonContent(
+                    array(
+                        "action" => ""
+                    )
+                );
+            }
+            
+            $response->send();
+        }
+        else {
+            $response->setStatusCode(404, "Not Found");    
+            $response->setJsonContent(
+                array(
+                    "error" => array(
+                        "code"    => 404,
+                        "message" => "Não foi possível encontrar o dispositivo informado",
+                        "title"   => "Not Found"
+                    )
+                )
+            );
+        }
+    }
+    
     private function searchInConfig($sensor)
     {
         $configSensors = $this->config->get("smarthome")->get("sensors");

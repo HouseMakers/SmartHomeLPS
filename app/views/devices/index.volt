@@ -162,6 +162,41 @@
             <!-- /.modal-dialog -->
         </div>
         <!-- /.modal -->
+        
+        <!-- Act device modal form -->
+        <div class="modal fade" id="deviceActModal" tabindex="-1" role="dialog" aria-labelledby="deviceActModalLabel">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title" id="deviceActModalTitle">Controlar Dispositivo - <span> </span></h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <form role="form" id="deviceActForm">
+                            <div class="box-body">
+                                <input type="hidden" id="device" name="device">
+                                <input type="hidden" id="action" name="action">
+                                
+                                <div id="actParameters">
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                            
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-danger">Atuar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
     </div>
     <!-- /.modals -->
     
@@ -173,6 +208,16 @@
         <button class="btn btn-danger btn-circle delete-device" data-container="body" data-toggle="tooltip" data-html="true" data-placement="top" title="Remover">
             <i class="fa fa-trash"></i>
         </button>
+        
+        <div class="dropdown act-device" style="display: inline">
+            <button class="btn btn-warning dropdown-toggle" type="button" data-toggle="dropdown">
+                <i class="fa fa-magic"></i>
+                <span class="caret"></span>
+            </button>
+            
+            <ul class="dropdown-menu actions">
+            </ul>
+        </div>
     </div>
 </section>
 <!-- /.content -->

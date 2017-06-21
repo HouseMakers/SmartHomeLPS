@@ -29,6 +29,20 @@
                 e.preventDefault();
                 SmartHome.Devices.deleteDevice();
             });
+            
+            $("table").on('click', '.act-device', function(){
+                SmartHome.Devices.loadActions($(this).attr("data-id"), $(this).find(".actions"));
+            });
+            
+            $("table").on('click', '.action', function(e){
+                e.preventDefault();
+                SmartHome.Devices.handleActSelection($(this).attr("data-device"), $(this).attr("data-act"));
+            });
+            
+            $("#deviceActForm").submit(function(e){
+                e.preventDefault();
+                $('#createDeviceModal').modal('hide');
+            });
         },
         
         showCreateDeviceModal: function() {
@@ -80,6 +94,85 @@
             });
         },
         
+        loadActions: function(id, list) {
+            if (list.html().trim().length == 0) {
+                $.get(
+                    SmartHome.baseUri + 'devices/actions/'  + id
+                )
+                .done(function(data) {
+                    console.log(data);
+                    if (data.actions.length == 0) {
+                        list.append('<li class="disabled"><a href="#">Sem Ações</a></li>');
+                    }
+                    else {
+                        for(var i = 0; i < data.actions.length; i++) {
+                            var action = $('<li class="action"><a href="#">' + data.actions[i].name + '</a></li>');
+
+                            action.attr('data-act', data.actions[i].action);
+                            action.attr('data-device', id);
+
+                            list.append(action);
+                        }
+                    }
+                })
+                .fail(function(jqXHR, textStatus, errorThrown) {
+                    list.append('<li class="disabled"><a href="#">Sem Ações</a></li>');
+                });
+            }
+        },
+        
+        handleActSelection: function(id, device) {    
+            $.post(
+                SmartHome.baseUri + 'devices/actionInfo/',
+                {
+                    id: id,
+                    action: device
+                }
+            )
+            .done(function(data) {
+                if (data.action.hasOwnProperty('parameters')) {
+                    $("#actParameters").empty();
+                    for(var i = 0; i < data.action.parameters.length; i++) {
+                        var parameter = $('<div class="form-group"></div>');
+                        var label = '<label for="' + data.action.parameters[i]['parameter'] + '">' + data.action.parameters[i]['name'] + '</label>';
+                        var input = '<input type="text" class="form-control parameter" name="' + data.action.parameters[i]['parameter'] + '" placeholder="Informe o valor">';
+                            
+                        parameter.append(label);
+                        parameter.append(input);
+                        $("#actParameters").append(parameter);
+                    }
+                    
+                    $('#deviceActModalTitle').find("span").text("");
+                    $("#device").val(id);
+                    $("#action").val(data.action.action);
+                    $('#deviceActModal').modal('show');
+                }
+                else {
+                    SmartHome.Devices.act(id, device);
+                }
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                
+            });
+        },
+        
+        act: function(device, action, parameters = []) {
+            $.post(
+                SmartHome.baseUri + 'devices/act', 
+                {
+                    id: device,
+                    action: action,
+                    parameters: parameters
+                }
+            )
+            .done(function(data) {
+                SmartHome.AlertManager.showAlertSuccess("Sucesso", data.message);
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                alert("Deu Errado");
+            });
+        },
+        
         loadDevices: function() {
             if (this.oTable) {
                 this.oTable.fnDestroy();
@@ -128,6 +221,13 @@
                                 "data-name": oData.name
                             });
                             $(nTd).append("     " + $(options[1]).wrap("<div/>").parent().html());
+                            
+                            $(options[2]).attr({
+                                "id": oData.id,
+                                "data-id": oData.id,
+                                "data-name": oData.name
+                            });
+                            $(nTd).append("     " + $(options[2]).wrap("<div/>").parent().html());
                         }
                     }
                 ],

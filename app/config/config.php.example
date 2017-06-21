@@ -53,6 +53,10 @@ return new \Phalcon\Config([
                 "cronLimit" => 360
             ]
         ],
+        'central' => [
+            'service' => 'SmartHomeLPS\Services\SmartHome\CentralService',
+            'baseUrl' => 'http://169.254.96.153/'
+        ],
         'sensors' => [
             [
                 'name' => 'Temperature', 
@@ -73,25 +77,122 @@ return new \Phalcon\Config([
         ],
         'devices' => [
             [
-                'name' => 'Light'
+                'name' => 'Light',
+                'actions' => [
+                    [
+                        'action' => 'ON'
+                    ],
+                    [
+                        'action' => 'OFF'
+                    ]
+                ]
             ],
             [
-                'name' => 'Window'
+                'name' => 'Window',
+                'actions' => [
+                    [
+                        'action' => 'OPEN'
+                    ],
+                    [
+                        'action' => 'CLOSE'
+                    ]
+                ]
             ],
             [
-                'name' => 'Heater'
+                'name' => 'Heater',
+                'actions' => [
+                    [
+                        'action' => 'ON'
+                    ],
+                    [
+                        'action' => 'OFF'
+                    ],
+                    [
+                        'action' => 'HEAT'
+                    ],
+                    [
+                        'action' => 'COOL'
+                    ]
+                ]
             ],
             [
-                'name' => 'Air Conditioning'
+                'name' => 'Air Conditioning',
+                'actions' => [
+                    [
+                        'action' => 'ON'
+                    ],
+                    [
+                        'action' => 'OFF'
+                    ],
+                    [
+                        'action' => 'HEAT'
+                    ],
+                    [
+                        'action' => 'COOL'
+                    ],
+                    [
+                        'action' => 'CHANGE',
+                        'parameters' => [
+                            [
+                                'parameter' => 'VALUE',
+                                'name' => 'Value',
+                                'type' => 'INT'
+                            ]
+                        ]
+                    ]
+                ]
             ],
             [
-                'name' => 'Security Camera'
+                'name' => 'Security Camera',
+                'actions' => [
+                    [
+                        'action' => 'ON'
+                    ],
+                    [
+                        'action' => 'OFF'
+                    ],
+                    [
+                        'action' => 'STANDBY'
+                    ],
+                    [
+                        'action' => 'REC'
+                    ]
+                ]
             ],
             [
-                'name' => 'Door'
+                'name' => 'Door',
+                'actions' => [
+                    [
+                        'action' => 'LOCK'
+                    ],
+                    [
+                        'action' => 'UNLOCK',
+                        'parameters' => [
+                            [
+                                'parameter' => 'PIN',
+                                'name' => 'PIN',
+                                'type' => 'STRING'
+                            ]
+                        ]
+                    ],
+                ]
             ],
             [
-                'name' => 'Irrigation Sprinkler'
+                'name' => 'Irrigation Sprinkler',
+                'actions' => [
+                    [
+                        'action' => 'ON'
+                    ],
+                    [
+                        'action' => 'OFF'
+                    ],
+                    [
+                        'action' => 'MODE1'
+                    ],
+                    [
+                        'action' => 'MODE2'
+                    ],
+                ]
             ]
         ]
     ],

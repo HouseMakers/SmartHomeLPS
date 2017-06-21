@@ -15,7 +15,7 @@ $loader->registerDirs(
 
 $loader->registerNamespaces([
     'SmartHomeLPS\Services' => $config->application->servicesDir,
-    'SmartHomeLPS\Services\SmartHome' => $config->application->servicesDir . "smarthome/",
+    'SmartHomeLPS\Services\SmartHome' => $config->application->servicesDir . "smarthome/"
 ]);
 
 $loader->registerFiles([APP_PATH . '/vendor/aws/aws-autoloader.php']);

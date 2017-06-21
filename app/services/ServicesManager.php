@@ -17,4 +17,11 @@ class ServicesManager extends Component
         
         return $services;
     }
+    
+    public function getCentralService()
+    {
+        $centralService = $this->config->smarthome->central->service;
+        
+        return new $centralService();
+    }
 }
