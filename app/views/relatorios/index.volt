@@ -12,7 +12,32 @@
     <h2>Relatório</h2>
     <br/>
 
-    <form method="POST" action="{{baseurl}}relatorios/generateReport/" id="main">
+    {% if reportTypes | length > 0 %}
+        <form method="POST" action="{{baseurl}}relatorios/generateReport/" id="main">
+            <div class="row" style="">
+                <div class='col-md-11'>
+                    <legend>Tipo</legend>
+                </div>
+
+                <div class='col-md-11'>
+                    <div class="form-group">
+                        <div class='row'>
+                            <div class='col-md-1' style="padding-top: 5px;">
+                                <label for="sel1">Tipo</label>
+                            </div>
+
+                            <div class='col-md-5'>
+                                <select class="form-control" id="sel1">
+                                    <option selected disabled> Selecione um tipo </option>
+                                    {% for reportType in reportTypes %}
+                                        <option> {{ reportType['name'] }} </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         <div class="row" style="">
             <div class='col-md-11'>
                 <legend>Período</legend>
@@ -57,6 +82,9 @@
             <button type="button" class="btn btn-primary ladda-button gerar-relatorio" data-style="zoom-in">Gerar Relatório</button>
         </div>
     </form>
+    {% else %}
+        <h4> Seu produto não tem nenhum tipo de relatório disponível </h4>
+    {% endif %}
 
     <br/><br/>
 </div>

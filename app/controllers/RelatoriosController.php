@@ -13,7 +13,15 @@ use Phalcon\Mvc\View;
 class RelatoriosController extends ControllerBase
 {
     public function indexAction(){
+        $reportTypes = $this->config->get("smarthome")->get("report")->get('types')->toArray();
 
+        for($i = 0; $i < count($reportTypes); $i++) {
+            $reportTypes[$i]['name'] = $this->t->_($reportTypes[$i]['name']);
+        }
+
+        error_log(print_r($reportTypes, true));
+
+        $this->view->reportTypes = $reportTypes;
     }
 
     public function generateReportAction(){

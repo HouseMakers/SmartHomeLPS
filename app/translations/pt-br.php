@@ -32,4 +32,7 @@ $messages = array(
     "Value" => "Valor",
     "ON" => "Ligado",
     "OFF" => "Desligado",
+    "Energy Consumption Report" => "Relatório de Consumo de Energia",
+    "Presence Report" => "Relatório de Presença",
+    "Alarm Report" => "Relatório dos Alarmes"
 );

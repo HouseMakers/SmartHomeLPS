@@ -58,6 +58,20 @@ return new \Phalcon\Config([
                 'SmartHomeLPS\Services\SmartHome\PDFReport',
                 'SmartHomeLPS\Services\SmartHome\ViewReport',
                 'SmartHomeLPS\Services\SmartHome\SpreadsheetReport',
+            ],
+            'types' => [
+                [
+                    'type' => 'Energy Consumption',
+                    'name' => 'Energy Consumption Report'
+                ],
+                [
+                    'type' => 'Presence',
+                    'name' => 'Presence Report'
+                ],
+                [
+                    'type' => 'Alarm',
+                    'name' => 'Alarm Report'
+                ]
             ]
         ],
         'central' => [
