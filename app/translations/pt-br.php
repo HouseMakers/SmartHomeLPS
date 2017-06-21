@@ -29,5 +29,7 @@ $messages = array(
     "Mode 2" => "Modo 2",
     "Rec Mode" => "Modo de Gravação",
     "StandBy" => "StandBy",
-    "Value" => "Valor"
+    "Value" => "Valor",
+    "ON" => "Ligado",
+    "OFF" => "Desligado",
 );

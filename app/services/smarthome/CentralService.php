@@ -9,8 +9,6 @@ class CentralService extends Component
     public function act($device, $action, $parameters = []) {
         $client = new \GuzzleHttp\Client();
         
-        error_log($this->config->smarthome->central->baseUrl . "act/" . $device->id . "/" . strtolower($action) . "/1");
-        
         try {
             $response = $client->request(
                 'GET', $this->config->smarthome->central->baseUrl . "act/" . $device->id . "/" . strtolower($action) . "/1"

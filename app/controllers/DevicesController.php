@@ -201,7 +201,7 @@ class DevicesController extends ControllerBase
             $row['id'] = $device->id;
             $row['name'] = $device->name;
             $row['type'] = $this->t->_($device->type);
-            $row['status'] = $device->status;
+            $row['status'] = $this->t->_($device->status);
             
             $json['aaData'][] = $row;
         }
@@ -245,10 +245,14 @@ class DevicesController extends ControllerBase
         if ($device) {
             $centralService = $this->servicesManager->getCentralService();
             if($centralService->act($device, $action)) {
+                
+                $device->status = $action;
+                $device->save();
+                
                 $response->setStatusCode(200, "Ok");
                 $response->setJsonContent(
                     array(
-                        "message" => "Dispositivo Atualizado"
+                        "message" => $device->name . " - " .  $this->t->_($action)
                     )
                 );
             }

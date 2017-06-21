@@ -167,6 +167,7 @@
             )
             .done(function(data) {
                 SmartHome.AlertManager.showAlertSuccess("Sucesso", data.message);
+                SmartHome.Devices.loadDevices();
             })
             .fail(function(jqXHR, textStatus, errorThrown) {
                 alert("Deu Errado");
