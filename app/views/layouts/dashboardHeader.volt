@@ -425,7 +425,7 @@
                     </li>
                     
                     <li>
-                        <a href="#">
+                        <a href="{{baseUri}}relatorios/">
                             <i class="fa fa-pie-chart"></i>
                             <span>Relatórios</span>
                         </a>
